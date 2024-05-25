@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticulosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +25,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('users', \App\Http\Controllers\UsersController::class);
+
+    Route::resource('inventario', \App\Http\Controllers\ArticulosController::class);
+
 });
