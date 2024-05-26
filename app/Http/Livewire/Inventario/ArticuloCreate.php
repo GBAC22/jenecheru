@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Livewire\Inventario;
 
-use Illuminate\Http\Request;
-use App\Models\Articulo;
 use Livewire\Component;
+use App\Models\Articulo;
 use Livewire\WithFileUploads;
+use Illuminate\Http\Request;
 
-class ArticulosController extends Controller
+class ArticuloCreate extends Component
 {
-    public function index(){
-        return view('inventario.index');
-    }
+
 
     // Reglas de validación para los campos del formulario
     protected $rules = [
@@ -25,7 +23,6 @@ class ArticulosController extends Controller
         'stock' => 'required',
         'descripcion'
     ];
-
 
     // Muestra el formulario para crear un nuevo artículo del inventario
     public function create()
@@ -41,7 +38,8 @@ class ArticulosController extends Controller
         return redirect()->route('livewire..inventario.articulo-index');
     }
 
-
-
-
+    public function render()
+    {
+        return view('livewire..inventario.articulo-create');
+    }
 }
