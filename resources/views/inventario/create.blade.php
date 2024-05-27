@@ -17,7 +17,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             placeholder="Agregar código del Artículo" />
                         @error('codigo')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -27,7 +28,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             placeholder="Agregar nombre del Artículo" />
                         @error('nombre')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -36,7 +38,8 @@
                         <input type="file" name="imagen" id="imagen"
                             class="form-input rounded-md shadow-sm mt-1 block w-full" />
                         @error('imagen')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -47,7 +50,8 @@
                             placeholder="Agregar tipo de Artículo" onfocus="if(this.value==='') this.value='';"
                             onblur="if(this.value==='') this.value='';" />
                         @error('tipo')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -59,7 +63,8 @@
                             placeholder="Agregar precio unitario del Artículo"
                             onfocus="if(this.value==='') this.value='';" onblur="if(this.value==='') this.value='';" />
                         @error('precio_unitario')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -71,7 +76,8 @@
                             placeholder="Agregar precio mayor del Artículo" onfocus="if(this.value==='') this.value='';"
                             onblur="if(this.value==='') this.value='';" />
                         @error('precio_mayor')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -82,9 +88,9 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             placeholder="Agregar precio promedio del Artículo"
                             onfocus="if(this.value==='') this.value='';" onblur="if(this.value==='') this.value='';" />
-                        @error('precio_promedio')
+                        <!--@error('precio_promedio')
                             <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        @enderror-->
                     </div>
 
                     <div class="px-4 py-5 bg-white sm:p-6">
@@ -94,7 +100,8 @@
                             placeholder="Agregar stock del Artículo" onfocus="if(this.value==='') this.value='';"
                             onblur="if(this.value==='') this.value='';" />
                         @error('stock')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -103,9 +110,9 @@
                         <textarea name="descripcion" id="descripcion" class="form-textarea rounded-md shadow-sm mt-1 block w-full"
                             placeholder="Agregar descripción del artículo" onfocus="if(this.value==='') this.placeholder=''"
                             onblur="if(this.value==='') this.placeholder='Agregar descripción del artículo'">{{ old('descripcion', '') }}</textarea>
-                        @error('descripcion')
+                        <!--@error('descripcion')
                             <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        @enderror-->
                     </div>
 
 
