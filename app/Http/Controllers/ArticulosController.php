@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use App\Models\Articulo;
 use Livewire\Component;
@@ -14,8 +13,6 @@ class ArticulosController extends Controller
     use WithFileUploads;
 
     //public $modalCrear = false;
-    public $codigo, $nombre, $imagen, $tipo, $precio_unitario, $precio_mayor, $precio_promedio,
-        $stock, $descripcion;
 
     // Reglas de validación para los campos del formulario
     protected $rules = [
@@ -40,13 +37,6 @@ class ArticulosController extends Controller
     // Muestra el formulario para crear un nuevo artículo del inventario
     public function create()
     {
-        //obtener nombre de la imagen
-        //$nombreImagen = time() . '_' . $this->imagen->getClientOriginalName();
-        //ruta guardar la imagen
-        //$ruta = $this->imagen->storeAs('public/imagenes/articulos', $nombreImagen);
-        //donde esta guardada la imagen
-        //$url = Storage::url($ruta);
-
         return view('inventario.create');
     }
 
@@ -54,32 +44,53 @@ class ArticulosController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->rules);
-        //obtener nombre de la imagen
-        $nombreImagen = time() . '_' . $this->imagen->getClientOriginalName();
-        //ruta guardar la imagen
-        $ruta = $this->imagen->storeAs('public/imagenes/articulos', $nombreImagen);
-        //donde esta guardada la imagen
-        $url = Storage::url($ruta);
-
-        //Articulo::create($request->all());
-        Articulo::create([
-            'codigo' => $this->codigo,
-            'nombre' => $this->nombre,
-            'imagen' => $url,
-            'tipo' => $this->tipo,
-            'precio_unitario' => $this->precio_unitario,
-            'precio_mayor' => $this->precio_mayor,
-            'precio_promedio' => $this->precio_promedio,
-            'stock' => $this->stock,
-            'descripcion' => $this->descripcion
-        ]);
-
-        $this->reset(['codigo', 'nombre', 'imagen', 'tipo', 'precio_unitario', 'precio_mayor', 'precio_promedio', 'stock', 'descripcion']);
-        
-        return redirect()->route('inventario.index');
+        $input = $request->all();
+        if ($file = $request->file('imagen')) {
+            $nombreImagen = time() . '_' . $file->getClientOriginalName();
+            $ruta = $file->storeAs('public/imagenes/articulos', $nombreImagen);
+            $input['imagen'] = Storage::url($ruta);
+        }
+        Articulo::create($input);
+        return redirect()->route('inventario.index')
+            ->with('success', 'Artículo creado exitosamente.');
     }
 
+    public function edit($id)
+    {
+        $articulo = Articulo::findOrFail($id);
+        return view('inventario.edit', compact('articulo'));
+    }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate($this->rules);
+        $articulo = Articulo::findOrFail($id);
+        $input = $request->all();
+        if ($file = $request->file('imagen')) {
+            $nombreImagen = time() . '_' . $file->getClientOriginalName();
+            $ruta = $file->storeAs('public/imagenes/articulos', $nombreImagen);
+            $input['imagen'] = Storage::url($ruta);
+        } else {
+            unset($input['imagen']);
+        }
+        $articulo->update($input);
+        return redirect()->route('inventario.index')
+            ->with('success', 'Artículo actualizado exitosamente.');
+    }
 
+    public function show($id)
+    {
+        $articulos = Articulo::findOrFail($id);
+        return view('inventario.show', compact('articulos'));
+    }
 
+    public function destroy($id)
+    {
+        $articulo = Articulo::find($id);
+        if (!$articulo) {
+            return redirect()->route('inventario.index')->with('error', 'El artículo no existe');
+        }
+        $articulo->delete();
+        return redirect()->route('inventario.index')->with('success', 'Artículo eliminado correctamente');
+    }
 }
