@@ -18,7 +18,7 @@ class ArticulosController extends Controller
     protected $rules = [
         'codigo' => 'required|string',
         'nombre' => 'required|string',
-        'imagen' => 'required|image',
+        'imagen',
         'tipo' => 'required|string',
         'precio_unitario' => 'required|numeric',
         'precio_mayor' => 'required|numeric',

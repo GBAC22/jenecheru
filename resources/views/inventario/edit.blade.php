@@ -17,7 +17,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             value="{{ old('codigo', $articulo->codigo) }}" />
                         @error('codigo')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -27,7 +28,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             value="{{ old('nombre', $articulo->nombre) }}" />
                         @error('nombre')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -39,7 +41,8 @@
                             <img src="{{ asset($articulo->imagen) }}" width="100px" class="mt-2">
                         @endif
                         @error('imagen')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>-->
                         @enderror
                     </div>
 
@@ -49,7 +52,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             value="{{ old('tipo', $articulo->tipo) }}" />
                         @error('tipo')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -59,7 +63,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             value="{{ old('precio_unitario', $articulo->precio_unitario) }}" />
                         @error('precio_unitario')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -69,7 +74,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             value="{{ old('precio_mayor', $articulo->precio_mayor) }}" />
                         @error('precio_mayor')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -79,7 +85,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             value="{{ old('precio_promedio', $articulo->precio_promedio) }}" />
                         @error('precio_promedio')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -89,7 +96,8 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             value="{{ old('stock', $articulo->stock) }}" />
                         @error('stock')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
@@ -99,7 +107,8 @@
                             class="form-textarea rounded-md shadow-sm mt-1 block w-full"
                             placeholder="Agregar descripción del artículo">{{ old('descripcion', $articulo->descripcion) }}</textarea>
                         @error('descripcion')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <!--<p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>-->
                         @enderror
                     </div>
 
