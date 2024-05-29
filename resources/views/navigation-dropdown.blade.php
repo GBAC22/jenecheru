@@ -31,6 +31,13 @@
                     </div>
                 @endcan
                 @can('user_access')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
+                            Categorías
+                        </x-jet-nav-link>
+                    </div>
+                @endcan
+                @can('user_access')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link>
                         Ventas
@@ -57,6 +64,7 @@
                         Inventario
                     </x-jet-nav-link>
                 </div>
+                
                 @endcan
                 @can('user_access')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
