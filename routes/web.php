@@ -1,6 +1,8 @@
 <?php
 
+
 use App\Http\Livewire\ArticulosController;
+use App\Http\Controllers\ArticulosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UsersController;
@@ -20,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -34,12 +37,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 
 /*
+
+// web.php
+use App\Http\Controllers\UsersController;
+
+Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('tasks', \App\Http\Controllers\TasksController::class);
 
     Route::resource('users', \App\Http\Controllers\UsersController::class);
 
@@ -48,3 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
       //  return view('homearti');
     //});
 });*/
+    Route::resource('inventario', \App\Http\Controllers\ArticulosController::class);
+
+});
+

@@ -27,13 +27,14 @@
                                         Email
                                     </th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email Verified At
+                                       
                                     </th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Roles
                                     </th>
-                                    <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
-
+                                    
+                                    <th scope="col" class="w-[300px] px-6 py-3 bg-gray-50">
+                                        
                                     </th>
                                 </tr>
                                 </thead>
@@ -66,6 +67,7 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('users.show', $user->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a>
+                                            <a href="{{ route('users.bitacora', $user->id) }}" class="text-purple-600 hover:text-purple-900 mb-2 mr-2">Bitacora</a>
                                             <a href="{{ route('users.edit', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Edit</a>
                                             <form class="inline-block" action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                                 <input type="hidden" name="_method" value="DELETE">

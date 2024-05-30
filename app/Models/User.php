@@ -73,4 +73,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+    public function bitacoras()
+    {
+        return $this->hasMany(Bitacora::class);
+    }
 }
