@@ -18,6 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// web.php
+use App\Http\Controllers\UsersController;
+
+Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
+
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
