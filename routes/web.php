@@ -51,12 +51,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('users', \App\Http\Controllers\UsersController::class);
 
+
+    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class);
+
     Route::resource('articulos', \App\Http\Livewire\Articulos::class);
     //Route::get('/',function(){
       //  return view('homearti');
     //});
 });*/
     Route::resource('inventario', \App\Http\Controllers\ArticulosController::class);
+
 
 });
 
