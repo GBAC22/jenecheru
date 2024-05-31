@@ -1,11 +1,12 @@
 <?php
 
-
-use App\Http\Livewire\ArticulosController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ArticulosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TasksController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Livewire\Articulos;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,48 +23,32 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/', [TasksController::class, ''])->name('');
-    
-    Route::get('/', [UsersController::class, ''])->name('');
-
-    Route::get('/articulos', [ArticulosController::class, 'home'])->name('articulo.home');
+    // Asegúrate de que todos estos métodos existan en los controladores correspondientes
+    Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
+    Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
 
 });
-
-/*
-
-// web.php
-use App\Http\Controllers\UsersController;
-
-Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::resource('users', UsersController::class);
+    Route::resource('marca', MarcaController::class);
+    Route::resource('categorias', CategoriaController::class);
+    Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
 
-    Route::resource('users', \App\Http\Controllers\UsersController::class);
 
+    // Para Livewire componentes normalmente no se definen de esta manera
+    Route::resource('articulos', Articulos::class);
 
-    Route::resource('Marca', \App\Http\Controllers\MarcaController::class);
-
-
-    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class);
-
-    Route::resource('articulos', \App\Http\Livewire\Articulos::class);
-    //Route::get('/',function(){
-      //  return view('homearti');
-    //});
-});*/
-    Route::resource('inventario', \App\Http\Controllers\ArticulosController::class);
-
+    Route::resource('inventario', ArticulosController::class);
+    Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
 
 });
-

@@ -14,14 +14,14 @@ class MarcaController extends Controller
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $Marca = marca::all();
-        return view('Marca.index',compact('Marca'));
+        return view('marca.index',compact('Marca'));
     }
 
    
     public function create()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('Marca.create');
+        return view('marca.create');
     }
 
     public function store(StoreMarcaRequests $request)
@@ -31,14 +31,14 @@ class MarcaController extends Controller
             'Nombre'=>$request->nombre,
             'Creacion'=>$request->Creacion
         ]);
-        return view('Marca.index');
+        return view('marca.index');
     }
       public function show(marca $marc)
     {
         
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('Marca.show',compact('marc'));
+        return view('marca.show',compact('marc'));
     }
 
   
@@ -46,7 +46,7 @@ class MarcaController extends Controller
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $marc=marca::find($id);
-        return view('Marca.edit',compact('marc'));
+        return view('marca.edit',compact('marc'));
     }
 
    
@@ -54,7 +54,7 @@ class MarcaController extends Controller
     {
         $marc=marca::find($id);
         $marc->update($request->all());
-        return redirect()->route('Marca.index');
+        return redirect()->route('marca.index');
     }
 
   
@@ -65,7 +65,7 @@ class MarcaController extends Controller
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $marc=marca::find($id);
         $marc->delete();
-        return redirect()->route('Marca.index');
+        return redirect()->route('marca.index');
     }  
 
 }

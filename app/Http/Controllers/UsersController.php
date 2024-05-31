@@ -82,4 +82,15 @@ class UsersController extends Controller
 
         return redirect()->route('users.index');
     }
+    
+    public function clientes()
+    {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $clientes = User::whereHas('roles', function ($query) {
+            $query->where('title', 'cliente');
+        })->get();
+
+        return view('users.clientes', compact('clientes'));
+    }
 }

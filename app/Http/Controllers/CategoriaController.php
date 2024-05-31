@@ -44,7 +44,7 @@ class CategoriaController extends Controller
         $categoria=Categoria::create([
             'nombre'=>$request->nombre
         ]);
-        return view('categorías.index');
+        return redirect()->route('categorias.index');
     }
 
     /**
