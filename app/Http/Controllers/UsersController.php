@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,15 @@ class UsersController extends Controller
         return view('users.show', compact('user'));
     }
 
+    public function showBitacora(User $user)
+    {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $bitacoras = $user->bitacoras; // Asume que 'bitacoras' es la relación definida en el modelo User
+
+        return view('users.bitacora', compact('user', 'bitacoras'));
+    }
+
     public function edit(User $user)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -71,5 +81,16 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect()->route('users.index');
+    }
+    
+    public function clientes()
+    {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $clientes = User::whereHas('roles', function ($query) {
+            $query->where('title', 'cliente');
+        })->get();
+
+        return view('users.clientes', compact('clientes'));
     }
 }
