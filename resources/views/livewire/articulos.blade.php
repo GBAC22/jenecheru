@@ -2,17 +2,17 @@
     <div class="col-md-8 mb-2">
         <div class="card">
             <div class="card-body">
-                @if(session()->has('success'))
+                @if (session()->has('success'))
                     <div class="alert alert-success" role="alert">
                         {{ session()->get('success') }}
                     </div>
                 @endif
-                @if(session()->has('error'))
+                @if (session()->has('error'))
                     <div class="alert alert-danger" role="alert">
                         {{ session()->get('error') }}
                     </div>
                 @endif
-                @if($updateArticle)
+                @if ($updateArticle)
                     @include('livewire.update')
                 @else
                     @include('livewire.create')
@@ -50,8 +50,10 @@
                                     <td>{{ $article->stock }}</td>
                                     <td>{{ $article->descripcion }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $article->id }})" class="btn btn-primary btn-sm">Editar</button>
-                                        <button onclick="deleteArticle({{ $article->id }})" class="btn btn-danger btn-sm">Eliminar</button>
+                                        <button wire:click="edit({{ $article->id }})"
+                                            class="btn btn-primary btn-sm">Editar</button>
+                                        <button onclick="deleteArticle({{ $article->id }})"
+                                            class="btn btn-danger btn-sm">Eliminar</button>
                                     </td>
                                 </tr>
                             @empty
@@ -66,8 +68,8 @@
         </div>
     </div>
     <script>
-        function deleteArticle(id){
-            if(confirm("¿Estás seguro de eliminar este registro?"))
+        function deleteArticle(id) {
+            if (confirm("¿Estás seguro de eliminar este registro?"))
                 window.livewire.emit('deleteArticle', id);
         }
     </script>
