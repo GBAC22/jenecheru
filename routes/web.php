@@ -7,6 +7,7 @@ use App\Http\Controllers\TasksController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Livewire\Articulos;
+use App\Http\Controllers\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +52,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('inventario', ArticulosController::class);
     Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
 
+    //pagos con stripe
+    Route::get('/pagos/checkout', [StripeController::class, 'checkout'])->name('pagos.checkout');
+    Route::get('/checkout', [StripeController::class, 'checkout'])->name('checkout');
+    Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
+    Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
+    
 });

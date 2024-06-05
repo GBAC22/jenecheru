@@ -20,5 +20,4 @@ class Articulos extends Model
     ];
 
     public $timestamps = true;
-    
 }

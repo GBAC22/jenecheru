@@ -20,5 +20,4 @@ class Articulo extends Model
         'stock',
         'descripcion'
     ];
-
 }
