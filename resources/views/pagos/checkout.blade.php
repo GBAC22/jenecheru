@@ -1,19 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Procesar Pago
+            Artículos Disponibles
         </h2>
     </x-slot>
 
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Checkout</title>
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    </head>
 
     <body class="bg-gray-100">
         <div class="max-w-4xl mx-auto py-10 px-4">
@@ -23,65 +14,64 @@
                 </div>
             @endif
 
-            <form id="paymentForm" action="{{ route('session') }}" method="POST">
-                @csrf
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white shadow-md rounded my-6">
-                        <thead>
-                            <tr>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Código</th>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Nombre</th>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Imagen</th>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Tipo</th>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Precio</th>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Descripción</th>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Total</th>
-                                <th
-                                    class="py-2 px-4 bg-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Seleccionar</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-700">
+            <head>
+                <!-- Bootstrap CSS -->
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+                    crossorigin="anonymous">
+                <!-- Bootstrap JavaScript -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+                </script>
+                <style>
+                    .card img {
+                        height: 150px;
+                        object-fit: cover;
+                    }
+
+                    .card-body {
+                        padding: 1rem;
+                    }
+                </style>
+            </head>
+
+            <body>
+                <div class="container my-5">
+                    <form id="paymentForm" action="{{ route('session') }}" method="POST">
+                        @csrf
+                        <div class="d-flex justify-content-end mb-3">
+                            <button type="submit" class="btn btn-success btn-lg">COMPRAR</button>
+                        </div>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
                             @foreach ($articulos as $articulo)
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-2 px-4">{{ $articulo->codigo }}</td>
-                                    <td class="py-2 px-4">{{ $articulo->nombre }}</td>
-                                    <td class="py-2 px-4"><img src="{{ $articulo->imagen }}" alt="Imagen de artículo"
-                                            class="h-8 w-8 rounded-full"></td>
-                                    <td class="py-2 px-4">{{ $articulo->tipo }}</td>
-                                    <td class="py-2 px-4">{{ $articulo->precio_unitario }}</td>
-                                    <td class="py-2 px-4">{{ $articulo->descripcion }}</td>
-                                    <td class="py-2 px-4">{{ $articulo->precio_unitario }}</td>
-                                    <td class="py-2 px-4 text-center"><input type="checkbox" name="articulo_id[]"
-                                            value="{{ $articulo->id }}"></td>
-                                </tr>
+                                <div class="col">
+                                    <div class="card h-100">
+                                        <img src="{{ $articulo->imagen }}" class="card-img-top"
+                                            alt="Imagen de {{ $articulo->nombre }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $articulo->nombre }}</h5>
+                                            <p class="card-text"><strong>Precio: $</strong>
+                                                {{ $articulo->precio_unitario }}</p>
+                                            <p class="card-text">{{ $articulo->descripcion }}</p>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="articulo_id[]"
+                                                    value="{{ $articulo->id }}" id="articulo{{ $articulo->id }}">
+                                                <label class="form-check-label" for="articulo{{ $articulo->id }}">
+                                                    Seleccionar
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
-                        </tbody>
-                    </table>
+                        </div>
+                    </form>
                 </div>
-                <div class="flex justify-end mt-6">
-                    <button type="submit"
-                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Comprar</button>
-                </div>
-            </form>
+
+            </body>
+
         </div>
+
     </body>
-
-    </html>
-
 
 </x-app-layout>

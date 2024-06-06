@@ -93,4 +93,5 @@ class ArticulosController extends Controller
         $articulo->delete();
         return redirect()->route('inventario.index')->with('success', 'Artículo eliminado correctamente');
     }
+    
 }

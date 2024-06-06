@@ -89,7 +89,7 @@
 
                 <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
                     <x-jet-nav-link href="{{ route('pagos.checkout') }}" :active="request()->routeIs('pagos.checkout')">
-                        {{ __('Checkout') }}
+                        {{ __('Artículos') }}
                     </x-jet-nav-link>
                 </div>
 
@@ -277,6 +277,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('inventario.index') }}" :active="request()->routeIs('inventario.index')">
                 {{ __('Inventario') }}
+            </x-jet-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{ route('pagos.checkout') }}" :active="request()->routeIs('pagos.checkout')">
+                {{ __('Artículos') }}
             </x-jet-responsive-nav-link>
         </div>
 
