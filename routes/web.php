@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\ArticulosController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TasksController;
-use App\Http\Controllers\MarcaController;
-use App\Http\Controllers\CategoriaController;
 use App\Http\Livewire\Articulos;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\TasksController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\ArticulosController;
+use App\Http\Controllers\CategoriaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     // Asegúrate de que todos estos métodos existan en los controladores correspondientes
     Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
-
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -57,5 +57,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/checkout', [StripeController::class, 'checkout'])->name('checkout');
     Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
     Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
+    
+
+    //carrito de compras
+    Route::get('/pagos/carrito-index', [ArticulosController::class, 'carrito-index'])->name('pagos.carrito-index');
+    Route::get('add-to-cart/{id}', [ArticulosController::class, 'addToCart'])->name('add_to_cart');
+
+
+    Route::get('/pagos/carrito-index', [ArticulosController::class, 'cart'])->name('pagos.carrito-index');
+
+    Route::get('/', [ArticulosController::class, 'index'])->name('articulos.index');
+    Route::post('add-to-cart', [ArticulosController::class, 'addToCart'])->name('add_to_cart');
+    Route::get('pagos/carrito-index', [ArticulosController::class, 'cart'])->name('pagos.carrito-index');
+    Route::post('update-cart', [ArticulosController::class, 'updateCart'])->name('update_cart');
+    Route::post('remove-from-cart', [ArticulosController::class, 'removeFromCart'])->name('remove_from_cart');
+    Route::post('clear-cart', [ArticulosController::class, 'clearCart'])->name('clear_cart');
+
     
 });

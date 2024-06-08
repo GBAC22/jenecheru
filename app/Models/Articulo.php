@@ -20,4 +20,14 @@ class Articulo extends Model
         'stock',
         'descripcion'
     ];
+
+    public function getContent()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->nombre,
+            'price' => $this->precio_unitario,
+            // Otros atributos del artículo que desees incluir en el contenido del carrito
+        ];
+    }
 }

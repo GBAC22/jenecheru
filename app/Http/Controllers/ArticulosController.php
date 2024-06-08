@@ -93,5 +93,68 @@ class ArticulosController extends Controller
         $articulo->delete();
         return redirect()->route('inventario.index')->with('success', 'Artículo eliminado correctamente');
     }
-    
+
+    public function home()
+    {
+        $articulos = Articulo::all();
+        return view('pagos.checkout', compact('articulos'));
+    }
+
+    public function addToCart(Request $request)
+    {
+        $articulo = Articulo::find($request->id);
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$articulo->id])) {
+            $cart[$articulo->id]['quantity'] += $request->quantity;
+        } else {
+            $cart[$articulo->id] = [
+                'id' => $articulo->id,
+                'name' => $articulo->nombre,
+                'price' => $articulo->precio_unitario,
+                'quantity' => $request->quantity,
+                'image' => $articulo->imagen
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->back()->with('success', '¡Artículo agregado al carrito!');
+    }
+
+    public function cart()
+    {
+        $cartItems = session()->get('cart', []);
+        return view('pagos.carrito-index', compact('cartItems'));
+    }
+
+    public function updateCart(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        if (isset($cart[$request->id])) {
+            $cart[$request->id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
+            return redirect()->route('pagos.carrito-index')->with('success', '¡Carrito actualizado!');
+        }
+
+        return redirect()->route('pagos.carrito-index')->with('error', '¡Artículo no encontrado en el carrito!');
+    }
+
+    public function removeFromCart(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        if (isset($cart[$request->id])) {
+            unset($cart[$request->id]);
+            session()->put('cart', $cart);
+            return redirect()->route('pagos.carrito-index')->with('success', '¡Artículo eliminado del carrito!');
+        }
+
+        return redirect()->route('pagos.carrito-index')->with('error', '¡Artículo no encontrado en el carrito!');
+    }
+
+    public function clearCart()
+    {
+        session()->forget('cart');
+        return redirect()->route('articulos.index')->with('success', '¡Carrito vaciado!');
+    }
 }
