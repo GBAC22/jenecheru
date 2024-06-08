@@ -48,7 +48,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Para Livewire componentes normalmente no se definen de esta manera
     Route::resource('articulos', Articulos::class);
-
     Route::resource('inventario', ArticulosController::class);
     Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
 
@@ -59,14 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
     
 
-    //carrito de compras
-    Route::get('/pagos/carrito-index', [ArticulosController::class, 'carrito-index'])->name('pagos.carrito-index');
-    Route::get('add-to-cart/{id}', [ArticulosController::class, 'addToCart'])->name('add_to_cart');
-
-
-    Route::get('/pagos/carrito-index', [ArticulosController::class, 'cart'])->name('pagos.carrito-index');
-
-    Route::get('/', [ArticulosController::class, 'index'])->name('articulos.index');
+    //carrito de compras  
     Route::post('add-to-cart', [ArticulosController::class, 'addToCart'])->name('add_to_cart');
     Route::get('pagos/carrito-index', [ArticulosController::class, 'cart'])->name('pagos.carrito-index');
     Route::post('update-cart', [ArticulosController::class, 'updateCart'])->name('update_cart');

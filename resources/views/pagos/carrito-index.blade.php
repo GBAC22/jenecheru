@@ -59,7 +59,7 @@
                                                     <input type="hidden" name="id" value="{{ $item['id'] }}">
                                                     <div class="input-group">
                                                         <button type="button" class="btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded-l decrease-quantity">-</button>
-                                                        <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" max="3" class="form-control text-center update-cart-quantity" style="width: 50px; border: 1px solid #D1D5DB;" readonly>
+                                                        <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" max="3" class="form-control text-center update-cart-quantity" style="width: 40px; border: 1px solid #D1D5DB;" readonly>
                                                         <button type="button" class="btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded-r increase-quantity">+</button>
                                                     </div>
                                                 </form>
@@ -91,13 +91,23 @@
         </div>
 
         @if(session('success'))
-            <div class="bg-green-500 text-white text-center py-2 mb-4 rounded">
+            <div id="success-message" class="fixed top-5 right-5 bg-green-500 text-white text-center py-2 px-4 rounded shadow-lg z-50">
                 {{ session('success') }}
             </div>
         @endif
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.classList.add('opacity-0');
+                    setTimeout(() => successMessage.remove(), 1000);
+                }, 3000);
+            }
+        });
+
         document.querySelectorAll('.update-cart-quantity').forEach(element => {
             element.addEventListener('change', function() {
                 this.closest('.update-cart-form').submit();
@@ -125,3 +135,5 @@
         });
     </script>
 </x-app-layout>
+
+

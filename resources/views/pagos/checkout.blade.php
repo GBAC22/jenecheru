@@ -1,15 +1,13 @@
-<!-- resources/views/articulos/index.blade.php -->
 <x-app-layout>
-    
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Artículos Disponibles
             </h2>
-            <div class="dropdown">
-                <button id="dLabel" type="button" class="btn btn-primary" data-bs-toggle="dropdown">
+            <div class="relative">
+                <button id="dLabel" type="button" class="btn btn-primary relative flex items-center" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                    <span class="bg-red-500 text-white rounded-full px-2 py-1">{{ count(session('cart', [])) }}</span>
+                    <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full px-2 py-1 text-xs">{{ count(session('cart', [])) }}</span>
                 </button>
     
                 <div class="dropdown-menu dropdown-menu-end p-3 shadow-lg" aria-labelledby="dLabel" style="width: 300px;">
@@ -48,17 +46,14 @@
                             <p class="mb-0 text-muted">El carrito está vacío</p>
                         </div>
                     @endif
-                    
                 </div>
-                
             </div>
         </div>
     </x-slot>
-    
 
-    <div class="bg-gray-100">
+    <div class="bg-gray-100 min-h-screen py-6">
         @if (session('success'))
-            <div class="bg-green-500 text-white text-center py-2 mb-4 rounded">
+            <div id="success-message" class="fixed top-5 right-5 bg-green-500 text-white text-center py-2 px-4 rounded shadow-lg z-50">
                 {{ session('success') }}
             </div>
         @endif
@@ -72,25 +67,25 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
 
-        <div class="container my-5">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+        <div class="container mx-auto px-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 @foreach ($articulos as $articulo)
                     <div class="col">
-                        <div class="card h-100 d-flex flex-column">
-                            <img src="{{ $articulo->imagen }}" class="card-img-top"
-                                alt="Imagen de {{ $articulo->nombre }}">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">{{ $articulo->nombre }}</h5>
-                                <p class="card-text"><strong>Precio: $</strong> {{ $articulo->precio_unitario }}</p>
-                                <p class="card-text">{{ $articulo->descripcion }}</p>
+                        <div class="card h-100 flex flex-col bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+                            <div class="w-full h-48 overflow-hidden flex items-center justify-center bg-gray-100">
+                                <img src="{{ $articulo->imagen }}" class="object-contain h-full" alt="Imagen de {{ $articulo->nombre }}">
+                            </div>
+                            <div class="card-body flex flex-col p-4">
+                                <h5 class="card-title font-bold text-lg text-gray-800">{{ $articulo->nombre }}</h5>
+                                <p class="card-text text-gray-700"><strong>Precio: $</strong> {{ $articulo->precio_unitario }}</p>
+                                <p class="card-text text-gray-600">{{ $articulo->descripcion }}</p>
                                 
                                 <form action="{{ route('add_to_cart') }}" method="POST" class="mt-auto">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $articulo->id }}">
                                     <input type="hidden" name="quantity" value="1">
-                                    <button class="btn btn-primary w-100" type="submit">Añadir al carrito</button>
+                                    <button class="btn btn-primary w-100 transition-colors duration-300 hover:bg-blue-700" type="submit">Añadir al carrito</button>
                                 </form>
-                                
                             </div>
                         </div>
                     </div>
@@ -98,7 +93,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.classList.add('opacity-0');
+                    setTimeout(() => successMessage.remove(), 1000);
+                }, 3000);
+            }
+        });
+    </script>
 </x-app-layout>
+
+
 
 
 
