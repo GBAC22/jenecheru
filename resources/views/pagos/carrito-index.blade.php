@@ -18,6 +18,8 @@
                 @endforeach
                 <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Pagar</button>
             </form>
+            <!-- ruta para la factura -->
+            <a href="{{ route('invoice.print') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">Imprimir Factura</a>
         </div>
 
         <div class="flex justify-center">
@@ -75,7 +77,6 @@
                                                 </form>
                                             </td>
                                         </tr>
-
                                     @endif
                                 @endforeach
                                 <tr>
@@ -135,5 +136,6 @@
         });
     </script>
 </x-app-layout>
+
 
 

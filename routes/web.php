@@ -7,6 +7,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
 
@@ -65,5 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('remove-from-cart', [ArticulosController::class, 'removeFromCart'])->name('remove_from_cart');
     Route::post('clear-cart', [ArticulosController::class, 'clearCart'])->name('clear_cart');
 
-    
+    //factura del carrito
+    Route::get('/invoice', [InvoiceController::class, 'print'])->name('invoice.print');
+
 });
