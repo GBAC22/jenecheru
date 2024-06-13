@@ -65,7 +65,7 @@ class MarcaController extends Controller
 
         $marc=marca::find($id);
         $marc->update($request->all());
-        return redirect()->route('marca.index');
+        return redirect()->route('marca.index'); //sa
     }
 
  
