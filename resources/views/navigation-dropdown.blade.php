@@ -102,6 +102,14 @@
                     </x-jet-nav-link>
                 </div>
                 @endcan --}}
+                @can('user_access')
+                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
+                        <x-jet-nav-link href="{{ route('modelos.index') }}" :active="request()->routeIs('modelos.*')">
+                            Modelos
+                        </x-jet-nav-link>
+                    </div>
+                @endcan
+
             </div>
 
             <!-- Settings Dropdown -->

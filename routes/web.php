@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ModeloController;
 use App\Http\Livewire\Articulos;
 
 /*
@@ -40,6 +41,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UsersController::class);
+    Route::resource('modelos', ModeloController::class);
     Route::resource('marca', MarcaController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
