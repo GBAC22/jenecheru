@@ -65,6 +65,7 @@ class MarcaSeeder extends Seeder
          'nombre'=>'Oxford',
          'creacion'=>'1866-10-04'
         ],
+        
       ];
       marca::insert($marcs);
   }

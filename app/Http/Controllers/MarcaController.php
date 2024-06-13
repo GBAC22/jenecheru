@@ -30,19 +30,14 @@ class MarcaController extends Controller
     {
         
         $request->validate([
+
             'nombre'=> 'required|string|min:1|max:200',
             'creacion' => 'required|string|min:1'
         ]);
         marca::create($request->all());
             
         return redirect()->route('marca.index');
-
-        
-        // $marc=marca::create([
-        //     'nombre'=>$request->nombre,
-        //     'creacion'=>$request->creacion
-        // ]);
-        // return view('marca.index');
+          
     }
       public function show(int $id)
     {
@@ -62,11 +57,7 @@ class MarcaController extends Controller
 
    
     public function update(Request $request,int $id)
-    {
-        // $marc=marca::find($id);
-        // $marc->update($request->all());
-        // return redirect()->route('marca.index');
-        
+    {              
         $request->validate([
             'nombre'=> 'required|string|min:1|max:200',
             'creacion' => 'required|string|min:1'
@@ -77,15 +68,13 @@ class MarcaController extends Controller
         return redirect()->route('marca.index');
     }
 
-  
-
  
     public function destroy(int $id)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $marc=marca::find($id);
-        $marc->delete();
+        $marc=marca::find($id);           
+        $marc->delete();   
         return redirect()->route('marca.index');
+      
     }  
-
 }

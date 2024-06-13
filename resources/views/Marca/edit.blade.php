@@ -12,11 +12,7 @@
                     @csrf
                     @method('put')
                     <div class="shadow overflow-hidden sm:rounded-md">
-                        {{-- <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="name" class="block font-medium text-sm text-gray-700">id</label>
-                            <input type="text" name="id" id="id" class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                   value="{{$marc->id}}" />
-                        </div> --}}
+                       
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="name" class="block font-medium text-sm text-gray-700">Nombre</label>
                             <input type="text" name="nombre" id="nombre" class="form-input rounded-md shadow-sm mt-1 block w-full"
@@ -33,6 +29,7 @@
                             <button class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                 Edit
                             </button>
+                            <a href="{{route('marca.index')}}" class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6"  >Cancel</a>
                         </div>
                     </div>
                 </form>

@@ -48,10 +48,12 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('marca.show', $marc->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a>
-                                            <a href="{{ route('marca.edit', $marc->id) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Edit</a>
+                                            <a href="{{ route('marca.edit', $marc->id) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Edit</a>                                              
+              
                                             <form class="inline-block" action="{{ route('marca.destroy', $marc->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                                 @csrf
                                                 @method('DELETE')
+                                                
 
                                                 <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">
                                             </form>
