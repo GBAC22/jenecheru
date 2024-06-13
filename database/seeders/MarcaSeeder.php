@@ -17,56 +17,56 @@ class MarcaSeeder extends Seeder
     {
 
   
-        $Marca =[
+        $marcs =[
         [
           'id'  => 100,    
-          'Nombre'=>'Valvoline',
-          'Creacion'=>'1866-01-01'
+          'nombre'=>'Valvoline',
+          'creacion'=>'1866-01-01'
         ],
  
        [
           'id'  => 101, 
-         'Nombre'=>'Brembo',
-         'Creacion'=>'1961-05-15'
+         'nombre'=>'Brembo',
+         'creacion'=>'1961-05-15'
         ],
  
        [
           'id'  => 102, 
-         'Nombre'=>'Ohlins',
-         'Creacion'=>'1976-03-10'
+         'nombre'=>'Ohlins',
+         'creacion'=>'1976-03-10'
         ],
  
        [
           'id'  => 103, 
-         'Nombre'=>'Mann-Filter',
-         'Creacion'=> '1941-04-10'
+         'nombre'=>'Mann-Filter',
+         'creacion'=> '1941-04-10'
         ],
  
        [
           'id'  => 104, 
-         'Nombre'=>'Philips',
-         'Creacion'=>'1891-02-01'
+         'nombre'=>'Philips',
+         'creacion'=>'1891-02-01'
         ],
  
        [
           'id'  => 105, 
-         'Nombre'=>'DID',
-         'Creacion'=>'1866-05-23'
+         'nombre'=>'DID',
+         'creacion'=>'1866-05-23'
         ],
  
        [
           'id'  => 106, 
-         'Nombre'=>'Pirelli',
-         'Creacion'=>'1866-02-21'
+         'nombre'=>'Pirelli',
+         'creacion'=>'1866-02-21'
         ],
  
         [
           'id'  => 107, 
-         'Nombre'=>'Oxford',
-         'Creacion'=>'1866-10-04'
+         'nombre'=>'Oxford',
+         'creacion'=>'1866-10-04'
         ],
       ];
-      marca::insert($Marca);
+      marca::insert($marcs);
   }
 
 }

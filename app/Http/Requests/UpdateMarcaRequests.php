@@ -13,7 +13,7 @@ class UpdateMarcaRequests extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,21 +23,21 @@ class UpdateMarcaRequests extends FormRequest
      */
     public function rules()
     {
-        return [
-            'Nombre'    => [
+        return [            
+            'nombre'    => [
                 'string',
                 'required',
             ],
-            'Creacion' => [
+            'creacion' => [
                 'required',
-                'unique:Marca,Creacion,' . request()->route('marc')->id,
+                'unique:marcs,creacion,' . request()->route('marc')->id,
             ],        
         ];
 
            
     }
-    // public function authorize1()
-    // {
-    //     return Gate::allows('user_access');
-    // }  
+    public function authorize1()
+    {
+        return Gate::allows('user_access');
+    }  
 }

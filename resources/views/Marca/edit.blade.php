@@ -8,19 +8,24 @@
     <div>
         <div class="max-w-4xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="post" action="{{ route('marca.update', $marc->id) }}">
+                <form method="POST" action="{{ route('marca.update', $marc->id) }}">
                     @csrf
                     @method('put')
                     <div class="shadow overflow-hidden sm:rounded-md">
+                        {{-- <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="name" class="block font-medium text-sm text-gray-700">id</label>
+                            <input type="text" name="id" id="id" class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                   value="{{$marc->id}}" />
+                        </div> --}}
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="name" class="block font-medium text-sm text-gray-700">Nombre</label>
-                            <input type="text" name="Nombre" id="Nombre" class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                   value="{{$marc->Nombre}}" />
+                            <input type="text" name="nombre" id="nombre" class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                   value="{{$marc->nombre}}" />
                         </div>
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="name" class="block font-medium text-sm text-gray-700">Creacion</label>
-                            <input type="text" name="Creacion" id="Creacion" class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                   value="{{$marc->Creacion}}" />
+                            <input type="text" name="creacion" id="creacion" class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                   value="{{$marc->creacion}}" />
                         </div>
 
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreMarcaRequests;
-use App\Http\Requests\UpdateMarcaRequests;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Illuminate\Support\Facades\Gate;
@@ -10,11 +10,13 @@ use App\Models\marca;
 
 class MarcaController extends Controller
 { 
+
+    
     public function index()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $Marca = marca::all();
-        return view('marca.index',compact('Marca'));
+        $marcs = marca::all();
+        return view('marca.index',compact('marcs'));
     }
 
    
@@ -24,20 +26,29 @@ class MarcaController extends Controller
         return view('marca.create');
     }
 
-    public function store(StoreMarcaRequests $request)
+    public function store(Request $request)
     {
         
-        $marc=marca::create([
-            'Nombre'=>$request->nombre,
-            'Creacion'=>$request->Creacion
+        $request->validate([
+            'nombre'=> 'required|string|min:1|max:200',
+            'creacion' => 'required|string|min:1'
         ]);
-        return view('marca.index');
+        marca::create($request->all());
+            
+        return redirect()->route('marca.index');
+
+        
+        // $marc=marca::create([
+        //     'nombre'=>$request->nombre,
+        //     'creacion'=>$request->creacion
+        // ]);
+        // return view('marca.index');
     }
-      public function show(marca $marc)
+      public function show(int $id)
     {
         
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $marc=marca::findOrFail($id);
         return view('marca.show',compact('marc'));
     }
 
@@ -50,8 +61,17 @@ class MarcaController extends Controller
     }
 
    
-    public function update(UpdateMarcaRequests $request,int $id)
+    public function update(Request $request,int $id)
     {
+        // $marc=marca::find($id);
+        // $marc->update($request->all());
+        // return redirect()->route('marca.index');
+        
+        $request->validate([
+            'nombre'=> 'required|string|min:1|max:200',
+            'creacion' => 'required|string|min:1'
+        ]);
+
         $marc=marca::find($id);
         $marc->update($request->all());
         return redirect()->route('marca.index');
