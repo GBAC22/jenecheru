@@ -68,9 +68,17 @@
         </div>
     </div>
     <script>
+        << << << < HEAD
+
         function deleteArticle(id) {
             if (confirm("¿Estás seguro de eliminar este registro?"))
-                window.livewire.emit('deleteArticle', id);
-        }
+                ===
+                === =
+                function deleteArticle(id) {
+                    if (confirm("¿Estás seguro de eliminar este registro?"))
+                        >>>
+                        >>> > main
+                    window.livewire.emit('deleteArticle', id);
+                }
     </script>
 </div>

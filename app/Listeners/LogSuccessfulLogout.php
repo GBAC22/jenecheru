@@ -32,6 +32,7 @@ class LogSuccessfulLogout
             'action' => 'Cierre de sesión',
             'details' => 'El usuario ' . $event->user->name . ' ha cerrado sesión.',
             'user_id' => $event->user->id,
+            'ip_address' => request()->ip(),
         ]);
     }
 }

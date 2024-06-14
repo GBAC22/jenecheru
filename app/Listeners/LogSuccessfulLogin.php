@@ -32,6 +32,7 @@ class LogSuccessfulLogin
             'action' => 'Inicio de sesión',
             'details' => 'El usuario ' . $event->user->name . ' ha iniciado sesión.',
             'user_id' => $event->user->id,
+            'ip_address' => request()->ip(),
         ]);
     }
 }

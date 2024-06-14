@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex justify-between h-16">
-                <!-- Logo -->
+                                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
@@ -39,12 +39,12 @@
                 @endcan
 
                 @can('user_access')
-                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                        <x-jet-nav-link href="{{ route('users.clientes') }}" :active="request()->routeIs('users.*')">
-                            Clientes
-                        </x-jet-nav-link>
-                    </div>
-                @endcan
+                <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
+                    <x-jet-nav-link href="{{ route('users.clientes') }}" :active="request()->routeIs('users.*')">
+                        Clientes
+                    </x-jet-nav-link>
+                </div>
+            @endcan
                 @can('user_access')
                     <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
                         <x-jet-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
@@ -53,12 +53,12 @@
                     </div>
                 @endcan
                 @can('user_access')
-                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                        <x-jet-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
-                            Marcas
-                        </x-jet-nav-link>
-                    </div>
-                @endcan
+                <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
+                    <x-jet-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
+                        Marcas
+                    </x-jet-nav-link>
+                </div>
+            @endcan
                 {{-- @can('user_access')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link>
@@ -108,6 +108,14 @@
                     </x-jet-nav-link>
                 </div>
                 @endcan --}}
+                @can('user_access')
+                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
+                        <x-jet-nav-link href="{{ route('modelos.index') }}" :active="request()->routeIs('modelos.*')">
+                            Modelos
+                        </x-jet-nav-link>
+                    </div>
+                @endcan
+
             </div>
 
             <!-- Settings Dropdown -->
@@ -224,35 +232,35 @@
             </x-jet-responsive-nav-link>
         </div>
         @can('user_access')
-            <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
-                    Usuarios
-                </x-jet-responsive-nav-link>
-            </div>
-        @endcan
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
+                Usuarios
+            </x-jet-responsive-nav-link>
+        </div>
+    @endcan
 
-        @can('user_access')
-            <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('users.clientes') }}" :active="request()->routeIs('users.*')">
-                    Clientes
-                </x-jet-responsive-nav-link>
-            </div>
-        @endcan
-        @can('user_access')
-            <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
-                    Categorías
-                </x-jet-responsive-nav-link>
-            </div>
-        @endcan
-        @can('user_access')
-            <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
-                    Marcas
-                </x-jet-responsive-nav-link>
-            </div>
-        @endcan
-        {{-- @can('user_access')
+    @can('user_access')
+    <div class="pt-2 pb-3 space-y-1">
+        <x-jet-responsive-nav-link href="{{ route('users.clientes') }}" :active="request()->routeIs('users.*')">
+            Clientes
+        </x-jet-responsive-nav-link>
+    </div>
+@endcan
+    @can('user_access')
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
+                Categorías
+            </x-jet-responsive-nav-link>
+        </div>
+    @endcan
+    @can('user_access')
+    <div class="pt-2 pb-3 space-y-1">
+        <x-jet-responsive-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
+            Marcas
+        </x-jet-responsive-nav-link>
+    </div>
+@endcan
+    {{-- @can('user_access')
     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
         <x-jet-nav-link>
             Ventas
@@ -274,11 +282,19 @@
     </div>
     @endcan --}}
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('inventario.index') }}" :active="request()->routeIs('inventario.index')">
+    <div class="pt-2 pb-3 space-y-1">
+        <x-jet-responsive-nav-link href="{{ route('inventario.index') }}" :active="request()->routeIs('inventario.index')">
+            {{ __('Inventario') }}
+        </x-jet-responsive-nav-link>
+    </div>
+
+        {{-- <div class="pt-2 pb-3 space-y-1">
+
+            <x-jet-responsive-nav-link href="{{ route('articulo.home') }}" :active="request()->routeIs('articulo.home')">
+
                 {{ __('Inventario') }}
             </x-jet-responsive-nav-link>
-        </div>
+        </div> --}}
 
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('pagos.checkout') }}" :active="request()->routeIs('pagos.checkout')">

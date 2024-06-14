@@ -14,7 +14,7 @@ class StoreMarcaRequests extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,19 +25,13 @@ class StoreMarcaRequests extends FormRequest
     public function rules()
     {
         return [
-            'Nombre'     => [
-                'string',
-                'required',
-            ],
-            'Creacion'    => [
-                'required',
-                'unique:Marca',
-            ],                
+            'nombre'=> 'required|string|min:1|max:200',
+            'creacion' => 'required|string|min:1'              
         ];
         
     }
-    // public function authorize1()
-    // {
-    //     return Gate::allows('user_access');
-    // }
+    public function authorize1()
+    {
+        return Gate::allows('user_access');
+    }
 }

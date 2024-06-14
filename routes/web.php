@@ -2,10 +2,10 @@
 
 use App\Http\Livewire\Articulos;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ArticulosController;
@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UsersController::class);
+    Route::resource('modelos', ModeloController::class);
     Route::resource('marca', MarcaController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
@@ -68,5 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //factura del carrito
     Route::get('/invoice', [InvoiceController::class, 'print'])->name('invoice.print');
+
+    Route::resource('inventario', ArticulosController::class);
+    Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
 
 });

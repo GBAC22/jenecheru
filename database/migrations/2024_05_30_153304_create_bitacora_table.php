@@ -18,6 +18,7 @@ class CreateBitacoraTable extends Migration
             $table->string('action');
             $table->text('details')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->ipAddress('ip_address')->nullable(); 
             $table->timestamps();
         });
     }
