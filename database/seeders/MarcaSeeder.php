@@ -8,68 +8,67 @@ use App\Models\marca;
 
 class MarcaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * 
-     */
-    public function run()
-    {
+   /**
+    * Run the database seeds.
+    *
+    * 
+    */
+   public function run()
+   {
 
-  
-        $marcs =[
-        [
-          'id'  => 100,    
-          'nombre'=>'Valvoline',
-          'creacion'=>'1866-01-01'
-        ],
- 
-       [
-          'id'  => 101, 
-         'nombre'=>'Brembo',
-         'creacion'=>'1961-05-15'
-        ],
- 
-       [
-          'id'  => 102, 
-         'nombre'=>'Ohlins',
-         'creacion'=>'1976-03-10'
-        ],
- 
-       [
-          'id'  => 103, 
-         'nombre'=>'Mann-Filter',
-         'creacion'=> '1941-04-10'
-        ],
- 
-       [
-          'id'  => 104, 
-         'nombre'=>'Philips',
-         'creacion'=>'1891-02-01'
-        ],
- 
-       [
-          'id'  => 105, 
-         'nombre'=>'DID',
-         'creacion'=>'1866-05-23'
-        ],
- 
-       [
-          'id'  => 106, 
-         'nombre'=>'Pirelli',
-         'creacion'=>'1866-02-21'
-        ],
- 
-        [
-          'id'  => 107, 
-         'nombre'=>'Oxford',
-         'creacion'=>'1866-10-04'
-        ],
-        
+
+      $marcs = [
+         [
+            'id'  => 100,
+            'nombre' => 'Valvoline',
+            'creacion' => '1866-01-01'
+         ],
+
+         [
+            'id'  => 101,
+            'nombre' => 'Brembo',
+            'creacion' => '1961-05-15'
+         ],
+
+         [
+            'id'  => 102,
+            'nombre' => 'Ohlins',
+            'creacion' => '1976-03-10'
+         ],
+
+         [
+            'id'  => 103,
+            'nombre' => 'Mann-Filter',
+            'creacion' => '1941-04-10'
+         ],
+
+         [
+            'id'  => 104,
+            'nombre' => 'Philips',
+            'creacion' => '1891-02-01'
+         ],
+
+         [
+            'id'  => 105,
+            'nombre' => 'DID',
+            'creacion' => '1866-05-23'
+         ],
+
+         [
+            'id'  => 106,
+            'nombre' => 'Pirelli',
+            'creacion' => '1866-02-21'
+         ],
+
+         [
+            'id'  => 107,
+            'nombre' => 'Oxford',
+            'creacion' => '1866-10-04'
+         ],
+
       ];
       marca::insert($marcs);
-  }
-
+   }
 }
 
 
@@ -116,8 +115,3 @@ class MarcaSeeder extends Seeder
       //   'Nombre'=>"Oxford",
       //   'Creacion'=>"1866-10-04"
       //  ]);
-
-   
-
-    
-
