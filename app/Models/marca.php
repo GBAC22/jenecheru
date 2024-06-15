@@ -19,7 +19,7 @@ class marca extends Model
         'id',
         'nombre',
         'creacion',
-        
+        'imagen',        
     ];
    
 }

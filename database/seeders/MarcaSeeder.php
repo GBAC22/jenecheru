@@ -21,49 +21,57 @@ class MarcaSeeder extends Seeder
          [
             'id'  => 100,
             'nombre' => 'Valvoline',
-            'creacion' => '1866-01-01'
+            'creacion' => '1866-01-01',
+            'imagen'=>'public/imagenes/marcas'
          ],
 
          [
             'id'  => 101,
             'nombre' => 'Brembo',
-            'creacion' => '1961-05-15'
+            'creacion' => '1961-05-15',
+            'imagen'=>'public/imagenes/marcas'
          ],
 
          [
             'id'  => 102,
             'nombre' => 'Ohlins',
-            'creacion' => '1976-03-10'
+            'creacion' => '1976-03-10',
+             'imagen'=>'public/imagenes/marcas'
          ],
 
          [
             'id'  => 103,
             'nombre' => 'Mann-Filter',
-            'creacion' => '1941-04-10'
+            'creacion' => '1941-04-10',
+              'imagen'=>'public/imagenes/marcas'
          ],
 
          [
             'id'  => 104,
             'nombre' => 'Philips',
-            'creacion' => '1891-02-01'
+            'creacion' => '1891-02-01',
+              'imagen'=>'public/imagenes/marcas'
          ],
 
          [
             'id'  => 105,
             'nombre' => 'DID',
-            'creacion' => '1866-05-23'
+            'creacion' => '1866-05-23',
+             'imagen'=>'public/imagenes/marcas'
          ],
 
          [
             'id'  => 106,
             'nombre' => 'Pirelli',
-            'creacion' => '1866-02-21'
+            'creacion' => '1866-02-21',
+          'imagen'=>'public/imagenes/marcas'
          ],
 
          [
             'id'  => 107,
             'nombre' => 'Oxford',
-            'creacion' => '1866-10-04'
+            'creacion' => '1866-10-04',
+            'imagen'=>'public/imagenes/marcas'
          ],
 
       ];
@@ -71,47 +79,3 @@ class MarcaSeeder extends Seeder
    }
 }
 
-
-
-
-
-
-      //  marca::create([
-      //    'Nombre'=>"Valvoline",
-      //    'Creacion'=>"1866-01-01"
-      //  ]);
-
-      //  marca::create([
-      //   'Nombre'=>"Brembo",
-      //   'Creacion'=>"1961-05-15"
-      //  ]);
-
-      //  marca::create([
-      //   'Nombre'=>"Ohlins",
-      //   'Creacion'=>"1976-03-10"
-      //  ]);
-
-      //  marca::create([
-      //   'Nombre'=>"Mann-Filter",
-      //   'Creacion'=> "1941-04-10"
-      //  ]);
-
-      //  marca::create([
-      //   'Nombre'=>"Philips",
-      //   'Creacion'=>"1891-02-01"
-      //  ]);
-
-      //  marca::create([
-      //   'Nombre'=>"DID",
-      //   'Creacion'=>"1866-05-23"
-      //  ]);
-
-      //  marca::create([
-      //   'Nombre'=>"Pirelli",
-      //   'Creacion'=>"1866-02-21"
-      //  ]);
-
-      //  marca::create([
-      //   'Nombre'=>"Oxford",
-      //   'Creacion'=>"1866-10-04"
-      //  ]);
