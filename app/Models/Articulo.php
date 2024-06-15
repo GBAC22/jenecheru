@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Modelo;
+use App\Models\Categoria;
+use App\Models\marca;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Articulo extends Model
 {
@@ -13,13 +16,31 @@ class Articulo extends Model
         'codigo',
         'nombre',
         'imagen',
-        'tipo',
         'precio_unitario',
         'precio_mayor',
         'precio_promedio',
         'stock',
-        'descripcion'
+        'descripcion',
+
+        'categoria_id',
+        'marca_id',
+        'modelo_id'
     ];
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    public function marca()
+    {
+        return $this->belongsTo(marca::class);
+    }
+
+    public function modelo()
+    {
+        return $this->belongsTo(Modelo::class);
+    }
 
     public function getContent()
     {

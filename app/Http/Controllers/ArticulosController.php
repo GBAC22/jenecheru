@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Articulo;
+use App\Models\marca;
+use App\Models\Modelo;
 use Livewire\Component;
+use App\Models\Articulo;
+use App\Models\Categoria;
+use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,19 +15,20 @@ class ArticulosController extends Controller
 {
     use WithFileUploads;
 
-    //public $modalCrear = false;
-
     // Reglas de validación para los campos del formulario
     protected $rules = [
         'codigo' => 'required|string',
         'nombre' => 'required|string',
         'imagen',
-        'tipo' => 'required|string',
         'precio_unitario' => 'required|numeric',
         'precio_mayor' => 'required|numeric',
         'precio_promedio' => 'nullable|numeric',
         'stock' => 'required|integer',
-        'descripcion' => 'nullable|string'
+        'descripcion' => 'nullable|string',
+
+        'categoria_id' => 'required|exists:categorias,id',
+        'marca_id' => 'required|exists:marcas,id',
+        'modelo_id' => 'required|exists:modelos,id'
     ];
 
     // Muestra una lista de artículos del inventario
@@ -37,7 +41,11 @@ class ArticulosController extends Controller
     // Muestra el formulario para crear un nuevo artículo del inventario
     public function create()
     {
-        return view('inventario.create');
+        $categorias = Categoria::all();
+        $marcas = marca::all();
+        $modelos = Modelo::all();
+
+        return view('inventario.create', compact('categorias', 'marcas', 'modelos'));
     }
 
     // Almacena un nuevo artículo del inventario en la base de datos
@@ -51,15 +59,20 @@ class ArticulosController extends Controller
             $input['imagen'] = Storage::url($ruta);
         }
         Articulo::create($input);
-        return redirect()->route('inventario.index')
-            ->with('success', 'Artículo creado exitosamente.');
+
+        return redirect()->route('inventario.index')->with('success', 'Artículo creado exitosamente.');
     }
 
     public function edit($id)
     {
         $articulo = Articulo::findOrFail($id);
-        return view('inventario.edit', compact('articulo'));
+        $categorias = Categoria::all();
+        $marcas = marca::all();
+        $modelos = Modelo::all();
+
+        return view('inventario.edit', compact('articulo', 'categorias', 'marcas', 'modelos'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -74,15 +87,15 @@ class ArticulosController extends Controller
             unset($input['imagen']);
         }
         $articulo->update($input);
-        return redirect()->route('inventario.index')
-            ->with('success', 'Artículo actualizado exitosamente.');
+        return redirect()->route('inventario.index')->with('success', 'Artículo actualizado exitosamente.');
     }
 
     public function show($id)
     {
-        $articulos = Articulo::findOrFail($id);
-        return view('inventario.show', compact('articulos'));
+        $articulo = Articulo::with(['categoria', 'marca', 'modelo'])->findOrFail($id);
+        return view('inventario.show', compact('articulo'));
     }
+
 
     public function destroy($id)
     {
