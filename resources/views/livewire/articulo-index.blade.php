@@ -31,19 +31,19 @@
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tipo
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Precio Unitario
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Precio Mayorista
+                                        Categoría
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Precio Promedio
+                                        Marca
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Modelo
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -58,7 +58,6 @@
                                             ACCIONES
                                         </th>
                                     @endcan
-
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -75,16 +74,16 @@
                                                 class="h-8 w-8 rounded-full">
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $articulo->tipo }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $articulo->precio_unitario }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $articulo->precio_mayor }}
+                                            {{ $articulo->categoria->nombre ?? 'No asignada' }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $articulo->precio_promedio }}
+                                            {{ $articulo->marca->nombre ?? 'No asignada' }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $articulo->modelo->nombre ?? 'No asignado' }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $articulo->stock }}
@@ -118,3 +117,5 @@
         </div>
     </div>
 </div>
+
+

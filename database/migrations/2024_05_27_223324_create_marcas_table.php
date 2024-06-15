@@ -20,7 +20,6 @@ class CreateMarcasTable extends Migration
             $table->string('imagen');
             $table->timestamps();
         });
-        
     }
 
     /**

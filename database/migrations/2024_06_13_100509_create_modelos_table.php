@@ -18,7 +18,6 @@ class CreateModelosTable extends Migration
             $table->string('nombre');
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
         });
     }
 

@@ -1,3 +1,4 @@
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -10,14 +11,12 @@
             <form method="post" action="{{ route('inventario.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="shadow overflow-hidden sm:rounded-md">
-
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <label for="codigo" class="block font-bold text-lg text-gray-700 mb-2">CÓDIGO</label>
                         <input type="text" name="codigo" id="codigo"
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             placeholder="Agregar código del Artículo" />
                         @error('codigo')
-                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
                             <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
@@ -28,7 +27,6 @@
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
                             placeholder="Agregar nombre del Artículo" />
                         @error('nombre')
-                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
                             <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
@@ -38,69 +36,43 @@
                         <input type="file" name="imagen" id="imagen"
                             class="form-input rounded-md shadow-sm mt-1 block w-full" />
                         @error('imagen')
-                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
                             <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
                     <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="tipo" class="block font-bold text-lg text-gray-700 mb-2">TIPO</label>
-                        <input type="text" name="tipo" id="tipo"
-                            class="form-input rounded-md shadow-sm mt-1 block w-full"
-                            placeholder="Agregar tipo de Artículo" onfocus="if(this.value==='') this.value='';"
-                            onblur="if(this.value==='') this.value='';" />
-                        @error('tipo')
-                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
-                            <p class="text-sm text-red-600">El campo es obligatorio</p>
-                        @enderror
-                    </div>
-
-                    <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="precio_unitario" class="block font-bold text-lg text-gray-700 mb-2">PRECIO
-                            UNITARIO</label>
+                        <label for="precio_unitario" class="block font-bold text-lg text-gray-700 mb-2">PRECIO UNITARIO</label>
                         <input type="text" name="precio_unitario" id="precio_unitario"
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
-                            placeholder="Agregar precio unitario del Artículo"
-                            onfocus="if(this.value==='') this.value='';" onblur="if(this.value==='') this.value='';" />
+                            placeholder="Agregar precio unitario del Artículo" />
                         @error('precio_unitario')
-                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
                             <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
                     <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="precio_mayor" class="block font-bold text-lg text-gray-700 mb-2">PRECIO
-                            MAYOR</label>
+                        <label for="precio_mayor" class="block font-bold text-lg text-gray-700 mb-2">PRECIO MAYOR</label>
                         <input type="text" name="precio_mayor" id="precio_mayor"
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
-                            placeholder="Agregar precio mayor del Artículo" onfocus="if(this.value==='') this.value='';"
-                            onblur="if(this.value==='') this.value='';" />
+                            placeholder="Agregar precio mayor del Artículo" />
                         @error('precio_mayor')
-                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
                             <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
 
                     <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="precio_promedio" class="block font-bold text-lg text-gray-700 mb-2">PRECIO
-                            PROMEDIO</label>
+                        <label for="precio_promedio" class="block font-bold text-lg text-gray-700 mb-2">PRECIO PROMEDIO</label>
                         <input type="text" name="precio_promedio" id="precio_promedio"
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
-                            placeholder="Agregar precio promedio del Artículo"
-                            onfocus="if(this.value==='') this.value='';" onblur="if(this.value==='') this.value='';" />
-                        <!--@error('precio_promedio')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror-->
+                            placeholder="Agregar precio promedio del Artículo" />
                     </div>
 
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <label for="stock" class="block font-bold text-lg text-gray-700 mb-2">STOCK</label>
                         <input type="text" name="stock" id="stock"
                             class="form-input rounded-md shadow-sm mt-1 block w-full"
-                            placeholder="Agregar stock del Artículo" onfocus="if(this.value==='') this.value='';"
-                            onblur="if(this.value==='') this.value='';" />
+                            placeholder="Agregar stock del Artículo" />
                         @error('stock')
-                            <!--<p class="text-sm text-red-600">{{ $message }}</p>-->
                             <p class="text-sm text-red-600">El campo es obligatorio</p>
                         @enderror
                     </div>
@@ -108,13 +80,44 @@
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <label for="descripcion" class="block font-bold text-lg text-gray-700 mb-2">DESCRIPCIÓN</label>
                         <textarea name="descripcion" id="descripcion" class="form-textarea rounded-md shadow-sm mt-1 block w-full"
-                            placeholder="Agregar descripción del artículo" onfocus="if(this.value==='') this.placeholder=''"
-                            onblur="if(this.value==='') this.placeholder='Agregar descripción del artículo'">{{ old('descripcion', '') }}</textarea>
-                        <!--@error('descripcion')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror-->
+                            placeholder="Agregar descripción del artículo">{{ old('descripcion', '') }}</textarea>
                     </div>
 
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="categoria_id" class="block font-bold text-lg text-gray-700 mb-2">CATEGORÍA</label>
+                        <select name="categoria_id" id="categoria_id" class="form-input rounded-md shadow-sm mt-1 block w-full">
+                            @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                            @endforeach
+                        </select>
+                        @error('categoria_id')
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
+                        @enderror
+                    </div>
+
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="marca_id" class="block font-bold text-lg text-gray-700 mb-2">MARCA</label>
+                        <select name="marca_id" id="marca_id" class="form-input rounded-md shadow-sm mt-1 block w-full">
+                            @foreach($marcas as $marca)
+                                <option value="{{ $marca->id }}">{{ $marca->nombre }}</option>
+                            @endforeach
+                        </select>
+                        @error('marca_id')
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
+                        @enderror
+                    </div>
+
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="modelo_id" class="block font-bold text-lg text-gray-700 mb-2">MODELO</label>
+                        <select name="modelo_id" id="modelo_id" class="form-input rounded-md shadow-sm mt-1 block w-full">
+                            @foreach($modelos as $modelo)
+                                <option value="{{ $modelo->id }}">{{ $modelo->nombre }}</option>
+                            @endforeach
+                        </select>
+                        @error('modelo_id')
+                            <p class="text-sm text-red-600">El campo es obligatorio</p>
+                        @enderror
+                    </div>
 
                     <div class="flex items-center justify-between px-4 py-3 bg-gray-50 sm:px-6">
                         <div class="flex-1">
@@ -138,5 +141,4 @@
             </form>
         </div>
     </div>
-
 </x-app-layout>

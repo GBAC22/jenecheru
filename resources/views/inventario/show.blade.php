@@ -7,8 +7,8 @@
 
     <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="block mb-8">
-            {{-- <a href="{{ route('inventario.index') }}"
-                class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Volver a la lista</a> --}}
+            <a href="{{ route('inventario.index') }}"
+                class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Volver a la lista</a>
         </div>
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -22,7 +22,7 @@
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->codigo }}
+                                    {{ $articulo->codigo }}
                                 </td>
                             </tr>
 
@@ -33,7 +33,7 @@
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->nombre }}
+                                    {{ $articulo->nombre }}
                                 </td>
                             </tr>
 
@@ -44,8 +44,8 @@
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    @if ($articulos->imagen)
-                                        <img src="{{ asset('storage/imagenes/articulos/' . $articulos->imagen) }}" width="200px"
+                                    @if ($articulo->imagen)
+                                        <img src="{{ asset('storage/imagenes/articulos/' . $articulo->imagen) }}" width="200px"
                                             class="mt-2">
                                     @else
                                         No hay imagen disponible
@@ -56,22 +56,11 @@
                             <tr class="border-b">
                                 <th scope="col"
                                     class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Tipo
-                                </th>
-                                <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->tipo }}
-                                </td>
-                            </tr>
-
-                            <tr class="border-b">
-                                <th scope="col"
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Precio Unitario
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->precio_unitario }}
+                                    {{ $articulo->precio_unitario }}
                                 </td>
                             </tr>
 
@@ -82,7 +71,7 @@
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->precio_mayor }}
+                                    {{ $articulo->precio_mayor }}
                                 </td>
                             </tr>
 
@@ -93,7 +82,7 @@
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->precio_promedio }}
+                                    {{ $articulo->precio_promedio }}
                                 </td>
                             </tr>
 
@@ -104,7 +93,7 @@
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->stock }}
+                                    {{ $articulo->stock }}
                                 </td>
                             </tr>
 
@@ -115,7 +104,43 @@
                                 </th>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                    {{ $articulos->descripcion }}
+                                    {{ $articulo->descripcion }}
+                                </td>
+                            </tr>
+
+                            <!-- Categoría -->
+                            <tr class="border-b">
+                                <th scope="col"
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Categoría
+                                </th>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+                                    {{ $articulo->categoria->nombre ?? 'No asignada' }}
+                                </td>
+                            </tr>
+
+                            <!-- Marca -->
+                            <tr class="border-b">
+                                <th scope="col"
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Marca
+                                </th>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+                                    {{ $articulo->marca->nombre ?? 'No asignada' }}
+                                </td>
+                            </tr>
+
+                            <!-- Modelo -->
+                            <tr class="border-b">
+                                <th scope="col"
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Modelo
+                                </th>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+                                    {{ $articulo->modelo->nombre ?? 'No asignado' }}
                                 </td>
                             </tr>
                         </table>
@@ -123,9 +148,10 @@
                 </div>
             </div>
         </div>
-        <div class="block mt-8">
+        <!-- <div class="block mt-8">
             <a href="{{ route('inventario.index') }}"
                 class="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Volver a la lista</a>
-        </div>
+        </div> -->
     </div>
 </x-app-layout>
+
