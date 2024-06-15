@@ -47,17 +47,6 @@
                         @enderror
                     </div>
 
-                    <!-- Tipo -->
-                    <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="tipo" class="block font-bold text-lg text-gray-700 mb-2">TIPO</label>
-                        <input type="text" name="tipo" id="tipo"
-                            class="form-input rounded-md shadow-sm mt-1 block w-full"
-                            value="{{ old('tipo', $articulo->tipo) }}" />
-                        @error('tipo')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
                     <!-- Precio Unitario -->
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <label for="precio_unitario" class="block font-bold text-lg text-gray-700 mb-2">PRECIO
