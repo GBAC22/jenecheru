@@ -5,8 +5,23 @@
         </h2>
     </x-slot>
     <div>
+        
+
+    </table>
+    @if(session('success'))
+        <div id="success-message" class="alert alert-success text-green-600 bg-green-200 border border-green-200 p-4 my-4">
+            {{ session('success') }}
+        </div>
+    @endif
+    <script>
+        setTimeout(function() {
+            document.getElementById('success-message').style.display = 'none';
+        }, 2000); // Ocultar el mensaje después de 2 seg
+    </script>
+    
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="block mb-8">
+                
                 <a href="{{ route('marca.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add Marca</a>
             </div>
             <div class="flex flex-col">
@@ -25,9 +40,11 @@
                                      <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Creación
                                     </th>
-                                    <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
-
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        PaisOrigen
                                     </th>
+                                   
+                                  
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -44,9 +61,14 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $marc->creacion }}
                                         </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <img src="/imagen/{{$marc->imagen}}" width="60%">
+                                        </td>
+                                        
 
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                                           
                                             <a href="{{ route('marca.show', $marc->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a>
                                             <a href="{{ route('marca.edit', $marc->id) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Edit</a>                                              
               
@@ -60,14 +82,20 @@
                                         </td>
                                     </tr>
                                 @endforeach
+
+                                
                                 </tbody>
+                                {{-- <table>
+                                    <div>
+                                        {!!$marc->links()!!}
+                                    </div>
+                                </table> --}}
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+        </div>    
     </div>
 </x-app-layout>
-
