@@ -38,18 +38,14 @@ class MarcaController extends Controller
             'creacion' => 'required|string|min:1',
             'imagen' => 'required|image|mimes:jpeg,png,svg,jpg|max:1024'
         ]);
-        // marca::create($request->all());
+    
         $input=$request->all();
         if($imagen = $request->file('imagen'))
-        {
-            // $guardarImagen= 'imagen/';
-            // $imagenM=date('YmdHis'). "." . $imagen->getClientOriginalExtension();
-            // $ruta = $imagen->storeAs('public/imagenes/marcas', $imagenM);
-            // $imagen->move($guardarImagen, $imagenM);
-            // $input['imagen'] = Storage::url($ruta);
-            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-            $ruta = $imagen->storeAs('public/imagenes/marcas', $nombreImagen);
-            $input['imagen'] = Storage::url($ruta);
+        {            
+            $rutaGuardarImg = 'imagen/';
+            $imagenProducto = date('YmdHis'). "." . $imagen->getClientOriginalExtension();
+            $imagen->move($rutaGuardarImg, $imagenProducto);
+            $input['imagen'] = "$imagenProducto";    
             
         }
         marca::create($input);
@@ -80,27 +76,18 @@ class MarcaController extends Controller
         ]);
         $marc = marca::findOrFail($id);
          $input = $request->all();
-         if ($imagen = $request->file('imagen')) {
-            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-            $ruta = $imagen->storeAs('public/imagenes/marcas', $nombreImagen);
-            $input['imagen'] = Storage::url($ruta);
+         if ($imagen = $request->file('imagen')) {         
+            $rutaGuardarImg = 'imagen/';
+            $imagenProducto = date('YmdHis') . "." . $imagen->getClientOriginalExtension(); 
+            $imagen->move($rutaGuardarImg, $imagenProducto);
+            $input['imagen'] = "$imagenProducto";
+
         } else {
             unset($input['imagen']);
         }
          $marc->update($input);
          return redirect()->route('marca.index')->with('success','Marca modificado exitosamente');
 
-
-
-
-        // $request->validate([
-        //     'nombre' => 'required|string|min:1|max:200',
-        //     'creacion' => 'required|string|min:1'
-        // ]);
-
-        // $marc = marca::find($id);
-        // $marc->update($request->all());
-        // return redirect()->route('marca.index')->with('success','Marca modificado exitosamente'); //sa
     }
 
 

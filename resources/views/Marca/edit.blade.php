@@ -8,7 +8,7 @@
     <div>
         <div class="max-w-4xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="POST" action="{{ route('marca.update', $marc->id) }}">
+                <form method="POST" action="{{ route('marca.update', $marc->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="shadow overflow-hidden sm:rounded-md">
@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 mt-5 mx-7">
-                            <img src=asset{{ $marc->imagen }} width="200px" id="imagenSeleccionada">
+                            <img src="/imagen/{{ $marc->imagen }}" width="200px" id="imagenSeleccionada">
                         </div>                                    
                         
                         <div class="grid grid-cols-1 mt-5 mx-7">
@@ -53,3 +53,16 @@
         </div>
     </div>
 </x-app-layout>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+<script>   
+    $(document).ready(function (e) {   
+        $('#imagen').change(function(){            
+            let reader = new FileReader();
+            reader.onload = (e) => { 
+                $('#imagenSeleccionada').attr('src', e.target.result); 
+            }
+            reader.readAsDataURL(this.files[0]); 
+        });
+    });
+</script>

@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UsersController::class);
     Route::resource('modelos', ModeloController::class);
-    Route::resource('marca', MarcaController::class);
+    Route::resource('/marca', MarcaController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
 

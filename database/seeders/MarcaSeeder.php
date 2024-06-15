@@ -22,7 +22,7 @@ class MarcaSeeder extends Seeder
             'id'  => 100,
             'nombre' => 'Valvoline',
             'creacion' => '1866-01-01',
-            'imagen'=>'imagenes\marcas.usa.jpg'
+            'imagen'=>'public/imagenes/marcas'
          ],
 
          [
