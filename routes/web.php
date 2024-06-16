@@ -10,7 +10,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
-
+use App\Http\Controllers\BitacoraController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UsersController::class);
@@ -71,6 +72,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/invoice', [InvoiceController::class, 'print'])->name('invoice.print');
 
     Route::resource('inventario', ArticulosController::class);
+
+    //para bitacora
     Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
+    Route::get('/generar-pdf/{userId}', [BitacoraController::class, 'generatePDF'])->name('generate.pdf');
 
 });
