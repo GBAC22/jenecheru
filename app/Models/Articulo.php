@@ -7,6 +7,8 @@ use App\Models\Categoria;
 use App\Models\marca;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Events\ArticuloCreated;
+use App\Events\ArticuloUpdated;
 
 class Articulo extends Model
 {
@@ -27,6 +29,22 @@ class Articulo extends Model
         'modelo_id'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($articulo) {
+            if (!app()->runningInConsole()) {
+                event(new ArticuloCreated($articulo));
+            }
+        });
+
+        static::updated(function ($articulo) {
+            if (!app()->runningInConsole()) {
+                event(new ArticuloUpdated($articulo));
+            }
+        });
+    }
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);
