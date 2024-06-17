@@ -11,6 +11,9 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\BitacoraController;
+use App\Http\Controllers\NotaVentaController;
+use App\Http\Controllers\VentaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::resource('notaventa', VentaController::class);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UsersController::class);
@@ -60,6 +64,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
     Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
     
+
+
+
+// Rutas para listar, crear, almacenar, mostrar, editar, actualizar y eliminar ventas
+Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
+Route::get('/ventas/create', [VentaController::class, 'create'])->name('ventas.create');
+Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
+Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('ventas.show');
+Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
+Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
+Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
 
     //carrito de compras  
     Route::post('add-to-cart', [ArticulosController::class, 'addToCart'])->name('add_to_cart');
