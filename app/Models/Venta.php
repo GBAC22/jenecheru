@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Venta extends Model
 {
     protected $fillable = [
-        'cliente_id', 'fecha', 'total',
+        'user_id',
+        'fecha',
+        'total',
     ];
 
     public function articulos()
@@ -15,5 +17,10 @@ class Venta extends Model
         return $this->belongsToMany(Articulo::class)
                     ->withPivot('cantidad', 'precio_unitario')
                     ->withTimestamps();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

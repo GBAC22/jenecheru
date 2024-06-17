@@ -5,34 +5,41 @@
         </h2>
     </x-slot>
 
-    <div>
-        <div class="max-w-4xl mx-auto py-10 sm:px-6 lg:px-8">
-            <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="post" action="{{ route('ventas.update', $venta->id) }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="shadow overflow-hidden sm:rounded-md">
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="cliente_id" class="block font-medium text-sm text-gray-700">Cliente</label>
-                            <select name="cliente_id" id="cliente_id" class="form-select rounded-md shadow-sm mt-1 block w-full">
-                                @foreach ($clientes as $cliente)
-                                    <option value="{{ $cliente->id }}" @if ($cliente->id == $venta->cliente_id) selected @endif>{{ $cliente->nombre }}</option>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+                    <form method="post" action="{{ route('ventas.update', $venta->id) }}">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-6">
+                            <label for="user_id" class="block text-sm font-medium text-gray-700">Cliente</label>
+                            <select name="user_id" id="user_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" @if ($user->id == $venta->user_id) selected @endif>{{ $user->name }}</option>
                                 @endforeach
                             </select>
+                            @error('user_id')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="fecha" class="block font-medium text-sm text-gray-700">Fecha</label>
-                            <input type="date" name="fecha" id="fecha" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ $venta->fecha }}" />
+                        <div class="mb-6">
+                            <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha</label>
+                            <p class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">{{ $venta->fecha }}</p>
                         </div>
 
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="total" class="block font-medium text-sm text-gray-700">Total</label>
-                            <input type="number" step="0.01" name="total" id="total" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ $venta->total }}" />
+                        <div class="mb-6">
+                            <label for="total" class="block text-sm font-medium text-gray-700">Total</label>
+                            <input type="number" step="0.01" name="total" id="total" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" value="{{ $venta->total }}" />
+                            @error('total')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <label class="block font-medium text-sm text-gray-700">Artículos</label>
+                        <div class="mb-6">
+                            <label for="articulos" class="block text-sm font-medium text-gray-700">Artículos</label>
                             <div class="grid grid-cols-3 gap-4 mt-2">
                                 @foreach ($articulos as $articulo)
                                     <div class="flex items-center">
@@ -47,7 +54,7 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-end mt-4">
+                        <div class="flex justify-end">
                             <a href="{{ route('ventas.index') }}" class="mr-4 inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-600 active:bg-gray-700 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                 Cancelar
                             </a>
@@ -55,8 +62,8 @@
                                 Guardar Cambios
                             </button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

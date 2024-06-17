@@ -5,86 +5,82 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Venta;
 use App\Models\Articulo;
-use App\Models\Cliente; // Asegúrate de importar el modelo Cliente
 use App\Models\User;
 
 class VentaController extends Controller
 {
     public function index()
     {
-        $ventas = Venta::with(['articulos', 'cliente'])->get(); // Cargar relaciones 'articulos' y 'cliente'
+        $ventas = Venta::with(['articulos', 'user'])->get();
         return view('ventas.index', compact('ventas'));
     }
 
     public function create()
     {
-        $clientes = User::all(); // Obtener todos los clientes
-        $articulos = Articulo::all(); // Obtener todos los artículos
-        return view('ventas.create', compact('clientes', 'articulos'));
+        $users = User::all();
+        $articulos = Articulo::all();
+        return view('ventas.create', compact('users', 'articulos'));
     }
 
     public function store(Request $request)
     {
         // Validar los datos del formulario
         $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
-            'fecha' => 'required|date',
+            'user_id' => 'required|exists:users,id',
             'articulos' => 'required|array',
             'articulos.*.cantidad' => 'required|integer|min:1',
             'articulos.*.precio_unitario' => 'required|numeric|min:0',
         ]);
-    
-        // Crear nueva venta
+
+        // Crear nueva venta con fecha actual
         $venta = Venta::create([
-            'cliente_id' => $request->cliente_id,
-            'fecha' => $request->fecha,
-            'total' => 0, // Calcularemos el total más adelante
+            'user_id' => $request->user_id,
+            'fecha' => now(), // Establecer la fecha actual
+            'total' => 0,
         ]);
-    
+
         // Adjuntar artículos a la venta con cantidad y precio_unitario
         foreach ($request->articulos as $articuloId => $detalles) {
             $cantidad = $detalles['cantidad'];
             $precioUnitario = $detalles['precio_unitario'];
-    
-            // Calcular el importe para este artículo
             $importe = $cantidad * $precioUnitario;
-    
+
             // Adjuntar el artículo a la venta con los detalles
             $venta->articulos()->attach($articuloId, [
                 'cantidad' => $cantidad,
                 'precio_unitario' => $precioUnitario,
                 'importe' => $importe,
             ]);
-    
+
             // Actualizar el total de la venta
             $venta->total += $importe;
         }
-    
+
         // Guardar el total calculado de la venta
         $venta->save();
-    
+
         return redirect()->route('ventas.index')->with('success', 'Venta creada correctamente');
     }
 
     public function show($id)
     {
-        $venta = Venta::with(['articulos', 'cliente'])->findOrFail($id); // Cargar relaciones 'articulos' y 'cliente'
+        $venta = Venta::with(['articulos', 'user'])->findOrFail($id);
         return view('ventas.show', compact('venta'));
     }
 
     public function edit($id)
     {
         $venta = Venta::findOrFail($id);
-        $clientes = User::all(); // Obtener todos los clientes
-        $articulos = Articulo::all(); // Obtener todos los artículos
-        return view('ventas.edit', compact('venta', 'clientes', 'articulos'));
+        $users = User::all();
+        $articulos = Articulo::all();
+        return view('ventas.edit', compact('venta', 'users', 'articulos'));
     }
 
     public function update(Request $request, $id)
     {
         // Validar datos del formulario
         $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
+            'user_id' => 'required|exists:users,id',
             'fecha' => 'required|date',
             'total' => 'required|numeric',
             'articulos' => 'required|array',
@@ -96,7 +92,7 @@ class VentaController extends Controller
         // Actualizar venta
         $venta = Venta::findOrFail($id);
         $venta->update([
-            'cliente_id' => $request->cliente_id,
+            'user_id' => $request->user_id,
             'fecha' => $request->fecha,
             'total' => $request->total,
         ]);
@@ -116,7 +112,7 @@ class VentaController extends Controller
     public function destroy($id)
     {
         $venta = Venta::findOrFail($id);
-        $venta->articulos()->detach(); // Eliminar relaciones de artículos
+        $venta->articulos()->detach();
         $venta->delete();
         return redirect()->route('ventas.index')->with('success', 'Venta eliminada correctamente');
     }
