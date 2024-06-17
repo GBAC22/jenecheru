@@ -42,6 +42,13 @@ class Articulo extends Model
         return $this->belongsTo(Modelo::class);
     }
 
+    public function ventas()
+    {
+        return $this->belongsToMany(Venta::class)
+                    ->withPivot('cantidad', 'precio_unitario')
+                    ->withTimestamps();
+    }
+
     public function getContent()
     {
         return [
