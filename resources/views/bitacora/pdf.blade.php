@@ -35,7 +35,7 @@
         <p>Fecha y hora de generación del PDF: {{ $currentDateTime }}</p>
     </div>
 
-    @foreach ($bitacoras->chunk(4) as $chunk)
+    @foreach ($bitacoras->chunk(20) as $chunk)
         <table class="table">
             <thead>
                 <tr>
@@ -58,9 +58,9 @@
                 @endforeach
             </tbody>
         </table>
-        {{-- @if ($bitacoras->hasPages())
-            <p>Página {{ $bitacoras->currentPage() }} de {{ $bitacoras->lastPage() }}</p>
-        @endif --}}
+        <div class="footer">
+            <p>Página {{ $loop->index + 1 }}</p>
+        </div>
         @if (! $loop->last)
             <div class="page-break"></div>
         @endif

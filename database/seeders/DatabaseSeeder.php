@@ -22,7 +22,11 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
             MarcaSeeder::class,
+
    //         ArticuloSeeder::class,
+
+            //ArticuloSeeder::class,
+
         ]);
     }
 }
