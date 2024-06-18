@@ -10,8 +10,9 @@
     "require": {
         "php": "^7.3|^8.0",
         "darryldecode/cart": "^4.2",
+        "dompdf/dompdf": "^3.0",
         "fideloper/proxy": "^4.4",
-       
+        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^1.0",
         "laravel/framework": "^8.12",
@@ -20,7 +21,7 @@
         "laravel/tinker": "^2.5",
         "laraveles/spanish": "^1.5",
         "livewire/livewire": "^2.12",
-        "stripe/stripe-php": "^14.9"
+        "stripe/stripe-php": "^14.10"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -52,13 +52,7 @@
                         </x-jet-nav-link>
                     </div>
                 @endcan
-                @can('user_access')
-                <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                    <x-jet-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
-                        Marcas
-                    </x-jet-nav-link>
-                </div>
-            @endcan
+              
                 {{-- @can('user_access')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link>
@@ -253,13 +247,8 @@
             </x-jet-responsive-nav-link>
         </div>
     @endcan
-    @can('user_access')
-    <div class="pt-2 pb-3 space-y-1">
-        <x-jet-responsive-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
-            Marcas
-        </x-jet-responsive-nav-link>
-    </div>
-@endcan
+  
+    
     {{-- @can('user_access')
     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
         <x-jet-nav-link>
