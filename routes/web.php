@@ -10,6 +10,9 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\BitacoraController;
+use App\Http\Controllers\NotaVentaController;
+use App\Http\Controllers\VentaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::resource('notaventa', VentaController::class);
+
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UsersController::class);
     Route::resource('modelos', ModeloController::class);  
@@ -59,6 +64,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
     
 
+
+
+// Rutas para listar, crear, almacenar, mostrar, editar, actualizar y eliminar ventas
+Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
+Route::get('/ventas/create', [VentaController::class, 'create'])->name('ventas.create');
+Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
+Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('ventas.show');
+Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
+Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
+Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
+
     //carrito de compras  
     Route::post('add-to-cart', [ArticulosController::class, 'addToCart'])->name('add_to_cart');
     Route::get('pagos/carrito-index', [ArticulosController::class, 'cart'])->name('pagos.carrito-index');
@@ -70,6 +86,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/invoice', [InvoiceController::class, 'print'])->name('invoice.print');
 
     Route::resource('inventario', ArticulosController::class);
+
+    //para bitacora
     Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
+    Route::get('/generar-pdf/{userId}', [BitacoraController::class, 'generatePDF'])->name('generate.pdf');
 
 });
