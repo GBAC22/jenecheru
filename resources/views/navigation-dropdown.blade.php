@@ -45,13 +45,6 @@
                     </x-jet-nav-link>
                 </div>
             @endcan
-               @can('user_access')
-                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                        <x-jet-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
-                            Marcas
-                        </x-jet-nav-link>
-                    </div>
-                @endcan
                 @can('user_access')
                     <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
                         <x-jet-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">

@@ -20,4 +20,10 @@ class Articulos extends Model
     ];
 
     public $timestamps = true;
+
+    
+    public function venta()
+    {
+        return $this->hasMany(Venta::class);
+    }
 }
