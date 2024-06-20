@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends Controller
@@ -34,10 +33,7 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $data = $request->validated();
-        $data['password'] = Hash::make($data['password']); // Encripta la contraseña
-
-        $user = User::create($data);
+        $user = User::create($request->validated());
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('users.index');
@@ -72,12 +68,7 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $data = $request->validated();
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']); // Encripta la contraseña
-        }
-
-        $user->update($data);
+        $user->update($request->validated());
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('users.index');
@@ -91,7 +82,7 @@ class UsersController extends Controller
 
         return redirect()->route('users.index');
     }
-
+    
     public function clientes()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
