@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Articulos as Articulo;
-
+use App\Models\Bitacora;
 class Articulos extends Component
 {
     // Propiedades públicas para almacenar los datos del formulario y el estado del artículo
@@ -105,7 +105,11 @@ class Articulos extends Component
     // Eliminar un artículo de la base de datos
     public function destroy($id)
     {
-        Articulo::find($id)->delete();
+        $articulo = Articulo::find($id);
+        
+       
+        $articulo->delete();
+
         session()->flash('success', 'Artículo eliminado exitosamente!');
     }
 }

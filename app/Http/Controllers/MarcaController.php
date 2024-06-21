@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMarcaRequests;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use App\Events\MarcaViewed;
 use Illuminate\Support\Facades\Gate;
 use App\Models\marca;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Bitacora;
 
 class MarcaController extends Controller
 {
@@ -57,6 +57,7 @@ class MarcaController extends Controller
 
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $marc = marca::findOrFail($id);
+        event(new MarcaViewed($marc));
         return view('marca.show', compact('marc'));
     }
 
@@ -95,6 +96,14 @@ class MarcaController extends Controller
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $marc = marca::find($id);
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Eliminacion de marca',
+                'details' => 'La marca ' . $marc->nombre . ' ha sido eliminada',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         $marc->delete();
         return redirect()->route('marca.index')->with('success', 'Marca eliminado exitosamente');
     }

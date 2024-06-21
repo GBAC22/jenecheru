@@ -4,6 +4,8 @@ namespace App\Models;
 use App\Models\Articulo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\MarcaCreated;
+use App\Events\MarcaUpdated;
 
 class marca extends Model
 {
@@ -22,8 +24,24 @@ class marca extends Model
           'imagen',        
       ];
   
-      public function articulos()
-      {
-          return $this->hasMany(Articulo::class);
-      }
+      protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($marca) {
+            if (!app()->runningInConsole()) {
+                event(new MarcaCreated($marca));
+            }
+        });
+
+        static::updated(function ($marca) {
+            if (!app()->runningInConsole()) {
+                event(new MarcaUpdated($marca));
+            }
+        });
+    }
+        public function articulos()
+        {
+            return $this->hasMany(Articulo::class);
+        }
 }

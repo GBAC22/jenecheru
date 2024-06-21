@@ -8,6 +8,7 @@ use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Bitacora;
 
 class CategoriaController extends Controller
 {
@@ -44,6 +45,14 @@ class CategoriaController extends Controller
         $categoria=Categoria::create([
             'nombre'=>$request->nombre
         ]);
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Creacion de categoria',
+                'details' => 'La categoria ' . $categoria->nombre . ' ha sido creado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         return redirect()->route('categorias.index');
     }
 
@@ -81,6 +90,14 @@ class CategoriaController extends Controller
     {
         $categoria=Categoria::find($id);
         $categoria->update($request->all());
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Modificacion de categoria',
+                'details' => 'La categoria ' . $categoria->nombre . ' ha sido modificado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         return redirect()->route('categorias.index');
     }
 
@@ -94,6 +111,14 @@ class CategoriaController extends Controller
     {
         $categoria=Categoria::find($id);
         $categoria->delete();
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Eliminacion de categoria',
+                'details' => 'La categoria ' . $categoria->nombre . ' ha sido eliminado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         return redirect()->route('categorias.index');
     }
 }

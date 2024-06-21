@@ -20,7 +20,7 @@ class LogArticuloCreated
         if (auth()->check()) {  // Verificar si un usuario está autenticado
             Bitacora::create([
                 'action' => 'Creación de artículo',
-                'details' => 'El artículo ' . $event->articulo->nombre . ' ha sido creado.',
+                'details' => 'El artículo ' . $event->articulo->nombre . ' ha sido creado',
                 'user_id' => auth()->user()->id,
                 'ip_address' => request()->ip(),
             ]);

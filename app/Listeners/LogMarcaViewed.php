@@ -1,26 +1,24 @@
 <?php
 
 namespace App\Listeners;
-
-use App\Events\MarcaUpdated;
+use App\Events\MarcaViewed;
+use App\Models\Bitacora;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Bitacora;
 
-class LogMarcaUpdated
+class LogMarcaViewed
 {
     /**
-     * Handle the event.
+     * Create the event listener.
      *
-     * @param  \App\Events\MarcaUpdated  $event
      * @return void
      */
-    public function handle(MarcaUpdated $event)
+    public function handle(MarcaViewed $event)
     {
         if (auth()->check()) {  // Verificar si un usuario está autenticado
             Bitacora::create([
-                'action' => 'Modificación de marca',
-                'details' => 'La marca ' . $event->marca->nombre . ' ha sido modificada',
+                'action' => 'Visualización de marca',
+                'details' => 'El detalle de la marca ' . $event->marca->nombre . ' ha sido visto',
                 'user_id' => auth()->user()->id,
                 'ip_address' => request()->ip(),
             ]);

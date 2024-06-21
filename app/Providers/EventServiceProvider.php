@@ -62,6 +62,12 @@ class EventServiceProvider extends ServiceProvider
         ArticuloUpdated::class => [
             LogArticuloUpdated::class,
         ],
+        'App\Events\MarcaViewed' => [
+        'App\Listeners\LogMarcaViewed',
+        ],
+        'App\Events\ArticuloViewed' => [
+        'App\Listeners\LogArticuloViewed',
+        ],
     ];
 
     /**

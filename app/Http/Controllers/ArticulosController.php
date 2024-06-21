@@ -7,10 +7,11 @@ use App\Models\Modelo;
 use Livewire\Component;
 use App\Models\Articulo;
 use App\Models\Categoria;
+use App\Events\ArticuloViewed;
 use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Bitacora;
 class ArticulosController extends Controller
 {
     use WithFileUploads;
@@ -93,6 +94,7 @@ class ArticulosController extends Controller
     public function show($id)
     {
         $articulo = Articulo::with(['categoria', 'marca', 'modelo'])->findOrFail($id);
+        event(new ArticuloViewed($articulo));
         return view('inventario.show', compact('articulo'));
     }
 
@@ -102,6 +104,14 @@ class ArticulosController extends Controller
         $articulo = Articulo::find($id);
         if (!$articulo) {
             return redirect()->route('inventario.index')->with('error', 'El artículo no existe');
+        }
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Eliminacion de articulo',
+                'details' => 'El articulo ' . $articulo->nombre . ' ha sido eliminado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
         }
         $articulo->delete();
         return redirect()->route('inventario.index')->with('success', 'Artículo eliminado correctamente');
