@@ -1,16 +1,20 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-cool-gray-300 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex justify-between h-16">
                                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-jet-application-mark class="block h-9 w-auto" />
-                    </a>
-                </div>
+                                <div class="flex-shrink-0 flex items-center">
+                                    <a href="{{ route('dashboard') }}">
+                                        <img src="{{ asset('images/logos.png') }}" alt="Logo" class="h-16 w-auto">
+                                    </a>
+                                </div>
+               <!-- Navigation Links -->
 
-                <!-- Navigation Links -->
+
+
+
+                
                 <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
@@ -22,7 +26,7 @@
                         {{ __('Inventario') }}
                     </x-jet-nav-link>
                 </div> --}}
-
+ 
                 {{-- @can('task_access')
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
@@ -30,70 +34,89 @@
                         </x-jet-nav-link>
                     </div>
                 @endcan --}}
+                <!-- Usuarios Dropdown -->
                 @can('user_access')
-                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                        <x-jet-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
-                            Usuarios
-                        </x-jet-nav-link>
-                    </div>
+                <div class="hidden sm:flex sm:items-center sm:ml-10">
+                    <x-jet-dropdown align="left">
+                        <x-slot name="trigger">
+                            <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                <div>Usuarios</div>
+                                <div class="ml-1">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+                            <x-jet-dropdown-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
+                                Usuarios
+                            </x-jet-dropdown-link>
+                            <x-jet-dropdown-link href="{{ route('users.clientes') }}" :active="request()->routeIs('users.*')">
+                                Clientes
+                            </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown>
+                </div>
                 @endcan
 
+                <!-- Marcas Dropdown -->
                 @can('user_access')
-                <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                    <x-jet-nav-link href="{{ route('users.clientes') }}" :active="request()->routeIs('users.*')">
-                        Clientes
-                    </x-jet-nav-link>
-                </div>
-            @endcan
-            @can('user_access')
-            <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                <x-jet-nav-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
-                    Marcas
-                </x-jet-nav-link>
-            </div>
-            @endcan            
-            @can('user_access')
-            <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                <x-jet-nav-link href="{{ route('notaventa.index') }}" :active="request()->routeIs('notaventa.*')">
-                    Notas de Venta
-                </x-jet-nav-link>
-            </div>
-            @endcan
-                @can('user_access')
-                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                        <x-jet-nav-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
+                <div class="hidden sm:flex sm:items-center sm:ml-10">
+                    <x-jet-dropdown align="left">
+                        <x-slot name="trigger">
+                            <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                <div>Gestion de articulos</div>
+                                <div class="ml-1">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+
+                            <x-jet-dropdown-link href="{{ route('inventario.index') }}" :active="request()->routeIs('inventario.index')">
+                                Inventario
+                            </x-jet-dropdown-link>
+                            <x-jet-dropdown-link href="{{ route('marca.index') }}" :active="request()->routeIs('marca.index')">
+                                Marcas
+                            </x-jet-dropdown-link>
+                            <x-jet-dropdown-link href="{{ route('modelos.index') }}" :active="request()->routeIs('modelos.*')">
+                                Modelos
+                            </x-jet-dropdown-link>
+                            <x-jet-dropdown-link href="{{ route('categorias.index') }}" :active="request()->routeIs('categorias.*')">
                             Categorías
-                        </x-jet-nav-link>
-                    </div>
-                @endcan
-              
-                {{-- @can('user_access')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link>
-                        Ventas
-                    </x-jet-nav-link>
+                        </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown>
                 </div>
                 @endcan
-                @can('user_access')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link >
-                        Compras
-                    </x-jet-nav-link>
-                </div>
-                @endcan
-                @can('user_access')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link>
-                        Pedidos
-                    </x-jet-nav-link>
-                </div>
-                @endcan --}}
 
-                <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                    <x-jet-nav-link href="{{ route('inventario.index') }}" :active="request()->routeIs('inventario.index')">
-                        {{ __('Inventario') }}
-                    </x-jet-nav-link>
+                <!-- Ventas Dropdown -->
+                @can('user_access')
+                <div class="hidden sm:flex sm:items-center sm:ml-10">
+                    <x-jet-dropdown align="left">
+                        <x-slot name="trigger">
+                            <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                <div>Ventas</div>
+                                <div class="ml-1">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+                            <x-jet-dropdown-link href="{{ route('notaventa.index') }}" :active="request()->routeIs('notaventa.*')">
+                                Notas de Venta
+                            </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown>
                 </div>
+                @endcan
+                
+
 
                 <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
                     <x-jet-nav-link href="{{ route('pagos.checkout') }}" :active="request()->routeIs('pagos.checkout')">
@@ -101,30 +124,8 @@
                     </x-jet-nav-link>
                 </div>
 
-                {{--
-                @can('user_access')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link >
-                        Provedores
-                    </x-jet-nav-link>
-                </div>
-                @endcan
-                @can('user_access')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link >
-                        Notas de salida
-                    </x-jet-nav-link>
-                </div>
-                @endcan --}}
-                @can('user_access')
-                    <div class="hidden space-x-8 sm:flex sm:items-center sm:ml-10">
-                        <x-jet-nav-link href="{{ route('modelos.index') }}" :active="request()->routeIs('modelos.*')">
-                            Modelos
-                        </x-jet-nav-link>
-                    </div>
-                @endcan
-
             </div>
+
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
