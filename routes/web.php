@@ -90,6 +90,6 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
 
     //para bitacora
     Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
-    Route::get('/generar-pdf/{userId}', [BitacoraController::class, 'generatePDF'])->name('generate.pdf');
+    Route::get('/bitacora/{userId}', [BitacoraController::class, 'showBitacora'])->name('show.bitacora');
 
 });
