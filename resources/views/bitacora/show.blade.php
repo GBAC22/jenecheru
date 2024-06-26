@@ -102,8 +102,14 @@
 <body>
     
     <div class="container mx-auto py-10">
-        @php $first = true; @endphp
-        @foreach ($bitacoras->chunk($first ? 9 : 10) as $chunk)
+        @php
+            $chunks = $bitacoras->slice(0, 9); // Primeros 9 registros para la primera página
+            $remaining = $bitacoras->slice(9); // El resto de los registros
+            $remainingChunks = $remaining->chunk(11); // Agrupamos el resto en chunks de 11
+            $chunks = collect([$chunks])->merge($remainingChunks); // Unimos todo en una colección
+            $first = true;
+        @endphp
+        @foreach ($chunks as $chunk)
             @if ($first)
                 <div class="invoice-header">
                     <div class="company-details">
@@ -134,21 +140,22 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($chunk as $bitacora)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->id }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->action }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->details }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->created_at }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->ip_address ?? 'N/A' }}</td>
-                        </tr>
+                        @if($bitacora)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->action }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->details }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->created_at }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $bitacora->ip_address ?? 'N/A' }}</td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>
-            @php $first = false; @endphp
             @if (!$loop->last)
                 <div class="page-break"></div>
             @endif
-            
+            @php $first = false; @endphp
         @endforeach
         <button onclick="printInvoice()" class="btn-print">Imprimir Bitácora</button>
         <button onclick="goBack()" class="btn-back">Volver Atrás</button>
