@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Venta;
 use App\Models\Articulo;
 use App\Models\User;
-
+use App\Models\Bitacora;
 class VentaController extends Controller
 {
     public function index()
@@ -55,7 +55,14 @@ class VentaController extends Controller
             // Actualizar el total de la venta
             $venta->total += $importe;
         }
-
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Creacion de nota de venta',
+                'details' => 'La nota de venta de ' .$venta->user->name . ' ha sido creado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         // Guardar el total calculado de la venta
         $venta->save();
 
@@ -65,6 +72,15 @@ class VentaController extends Controller
     public function show($id)
     {
         $venta = Venta::with(['articulos', 'user'])->findOrFail($id);
+
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Visualización de la nota de venta',
+                'details' => 'El detalle de la nota de venta de ' .$venta->user->name . ' ha sido visto',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         return view('ventas.show', compact('venta'));
     }
 
@@ -112,6 +128,14 @@ class VentaController extends Controller
     public function destroy($id)
     {
         $venta = Venta::findOrFail($id);
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Eliminacion de la nota de venta',
+                'details' => 'La nota de venta de ' . $venta->user->name . ' ha sido eliminado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         $venta->articulos()->detach();
         $venta->delete();
         return redirect()->route('ventas.index')->with('success', 'Venta eliminada correctamente');
