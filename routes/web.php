@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SalidaController;
 use App\Http\Livewire\Articulos;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarcaController;
@@ -51,7 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/marca', MarcaController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
-
+    Route::resource('salidas', SalidaController::class);
 
     // Para Livewire componentes normalmente no se definen de esta manera
     Route::resource('articulos', Articulos::class);
