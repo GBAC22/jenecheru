@@ -102,23 +102,26 @@
 <body>
     
     <div class="container mx-auto py-10">
-        <div class="invoice-header">
-            <div class="company-details">
-                <p><strong>Jenecheru</strong></p>
-                <p>Dirección de la Empresa</p>
-                <p>Teléfono: +123 456 789</p>
-                <p>Email: info@jenecheru.com</p>
-            </div>
-            <div class="invoice-title">
-                <h1>Bitácora</h1>
-            </div>
-            <div class="invoice-meta">
-                <p><strong>Fecha y Hora:</strong> {{ $currentDateTime }}</p>
-                <p><strong>Usuario:</strong> {{ $user->name }}</p>
-            </div>
-        </div>
+        @php $first = true; @endphp
+        @foreach ($bitacoras->chunk($first ? 9 : 10) as $chunk)
+            @if ($first)
+                <div class="invoice-header">
+                    <div class="company-details">
+                        <p><strong>Jenecheru</strong></p>
+                        <p>Dirección de la Empresa</p>
+                        <p>Teléfono: +123 456 789</p>
+                        <p>Email: info@jenecheru.com</p>
+                    </div>
+                    <div class="invoice-title">
+                        <h1>Bitácora</h1>
+                    </div>
+                    <div class="invoice-meta">
+                        <p><strong>Fecha y Hora:</strong> {{ $currentDateTime }}</p>
+                        <p><strong>Usuario:</strong> {{ $user->name }}</p>
+                    </div>
+                </div>
+            @endif
 
-        @foreach ($bitacoras->chunk(9) as $chunk)
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>
@@ -141,9 +144,11 @@
                     @endforeach
                 </tbody>
             </table>
+            @php $first = false; @endphp
             @if (!$loop->last)
                 <div class="page-break"></div>
             @endif
+            
         @endforeach
         <button onclick="printInvoice()" class="btn-print">Imprimir Bitácora</button>
         <button onclick="goBack()" class="btn-back">Volver Atrás</button>
