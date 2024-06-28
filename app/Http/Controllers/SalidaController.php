@@ -1,21 +1,25 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\UpdateSalidaRequest;
 use App\Models\Articulo;
 
-use App\Models\User;
+
 use App\Models\Salida;
-use App\Http\Requests\StoreSalidaRequest;
-use App\Http\Requests\UpdateSalidaRequest;
+
+
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SalidaController extends Controller
-{
+{  
    
     public function index()
     {
+     
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $salidas = Salida::all();
         return view('salida.index', compact('salidas'));
@@ -30,22 +34,31 @@ class SalidaController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(UpdateSalidaRequest $request)
     {
-        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $salidas= Salida::create($request->all());
+        // fecha_hora' => 'required',
+        //     'impuesto' => 'required',
+        //     'numero_comprobante' => 'required|unique:ventas,numero_comprobante|max:255',
+        //     'total' => 'required|numeric',
+        //     'cliente_id' => 'required|exists:clientes,id',
+        //     'user_id' => 'required|exists:users,id',
+
+       
+        
+        $salidas= Salida::create($request->all()+[
+            'fecha'=>Carbon::now()
+        ]);
 
         foreach($request->articulo_id as $key => $articulo)
         {
-            $results[] = array("articulo_id"->$request->articulo_id[$key],
-            "cantidad"->$request->cantidad[$key],
-            "descripcion"->$request->descripcion[$key]
-            );
+            $results[] = array(
+            "articulo_id"=>$request->articulo_id[$key],
+            "cantidad"=>$request->cantidad[$key]);
         }               
         
         $salidas->detalleSalida()->createMany($results);
-        // $salidas->save();
+      
         
         return redirect()->route('salida.index');
     }
@@ -59,8 +72,7 @@ class SalidaController extends Controller
 
    
     public function edit(Salida $salida)
-    {
-        $users=User::get();
+    {    
         return view('salida.show',compact('salida'));
     }
 
@@ -71,8 +83,10 @@ class SalidaController extends Controller
     }
 
   
-    public function destroy(Salida $salida)
+    public function destroy(int $salida)
     {
-        //
+        $salidas = Salida::find($salida);       
+        $salidas->delete();
+        return redirect()->route('salida.index')->with('success', 'Salida eliminado exitosamente');
     }
 }

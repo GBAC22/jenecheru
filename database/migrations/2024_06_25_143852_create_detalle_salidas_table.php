@@ -20,8 +20,8 @@ class CreateDetalleSalidasTable extends Migration
 
             $table->unsignedBigInteger('articulo_id'); 
             $table->foreign('articulo_id')->references('id')->on('articulos');
-            $table->integer('Cantidad');
-            $table->string('descripcion'); 
+            $table->integer('cantidad');
+           
             $table->timestamps();
         });
     }

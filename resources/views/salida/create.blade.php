@@ -3,64 +3,92 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Registro de Salidas
         </h2>
-    </x-slot>
-
+    </x-slot>  
     <div>
         <div class="max-w-4xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="post" action="{{ route('salidas.store') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('salidas.store') }}" >
                      @csrf {{--  protege app contra ataques --}}
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="articulo_id" class="block font-medium text-sm text-gray-700">Articulo</label>
                             <select  name="articulo_id" id="articulo_id" class="form-input rounded-md shadow-sm mt-1 block w-full"                                    />
                               <option value="" disabled selected>Seleccione un articulo</option>
-                              @foreach($articulos as $articulo)                            
-                                <option value="{{ $articulo->id }}_{{ $articulo->stock }}">{{ $articulo->nombre }} </option>
-                              @endforeach
+                              
+                               @foreach($articulos as $articulo)                            
+                                  <option value="{{ $articulo->id }}_{{ $articulo->stock }}">{{ $articulo->nombre }} </option>
+                                @endforeach
                             </select>
                         </div>
                        
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="name" class="block font-medium text-sm text-gray-700">Stock actual</label>
-                            <input type="text" name="" id="stock" value="" class="form-input rounded-md shadow-sm mt-1 block w-full "disabled/>
+                            <label for="stock" class="block font-medium text-sm text-gray-700">Stock actual</label>
+                            <input type="number" name="stock" id="stock" value="" class="form-input rounded-md shadow-sm mt-1 block w-full "disabled/>
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="name" class="block font-medium text-sm text-gray-700">Cantidad</label>
-                            <input type="text" name="cantidad" id="cantidad" class="form-input rounded-md shadow-sm mt-1 block w-full"                                    />
+                            <label for="cantidad" class="block font-medium text-sm text-gray-700">Cantidad</label>
+                            <input type="number" name="cantidad" id="cantidad" class="form-input rounded-md shadow-sm mt-1 block w-full"  aria-describedby="helpId"                                    />
                         </div>
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="name" class="block font-medium text-sm text-gray-700">Descripcion</label>
-                            <input type="text" name="descripcion" id="descripcion" class="form-input rounded-md shadow-sm mt-1 block w-full"                                    />
-                        </div>
+                        
 
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <button type = "button" id="agregar" class="btn btn-primary float-right   w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"> Agregar Articulo </button>
+                        <div class="px-4 py-5 bg-white sm:p-6 mb-4">
+                            <button type = "button" id="bt_add" class="btn btn-primary float-right   w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2" > 
+                                Agregar Articulo 
+                            </button>
                         </div>
 
                         {{-- <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="name" class="block font-medium text-sm text-gray-700">Agregar</label>
                             <input type="text" name="cantidad" id="cantidad" class="form-input rounded-md shadow-sm mt-1 block w-full"                                    />
                         </div> --}}
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                             <h4 class="card-tittle py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"> Detalles de Salida</h4>
+                         <div class="px-4 py-5 bg-white sm:p-6">
+                             <h4 class="font-semibold text-xl text-gray-800 leading-tight "> Detalles de Salida </h4>
                              <div class="table-responsive col-md-12 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <table id="detalles" class="table table-striped min-w-full divide-y divide-gray-200 w-full">
-                                    <thead>
+                                <table id="detalles" class="table table-striped">
+                                    <thead >
                                         <tr>
-                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> Eliminar</th>
-                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> Articulo</th>
-                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> Cantidad</th>
-                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> Descripcion</th>
+                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> 
+                                                Eliminar
+                                            </th>
+                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> 
+                                                Articulo
+                                            </th>
+                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> 
+                                                Cantidad
+                                            </th>
+                                       
                                         </tr>  
                                     </thead>
+                                    
+                                   
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="4">
+                                                <p align="right"> TOTAL: </p>
+                                            </th>
+                                            <th>
+                                                <p align="right"> <span id="total"> PEN 0.00 </span> </p>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <th></th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
                                 </table>                              
                             </div>        
                         </div>
                         
 
-
+{{--
                         <div class="px-4 py-5 bg-white sm:p-6 mt-5 mx-7">
                             <img id="imagenSeleccionada" style="max-height: 300px;">
                         </div>
@@ -77,13 +105,13 @@
                                     <input name="imagen" id="imagen" type='file' class="hidden" />
                                     </label>
                                 </div>
-                        </div>
+                        </div> --}}
 
                         <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
-                            {{-- <button type="submit" id="guardar" class="btn btn-primary float-right">Registrar</button> --}}
                             <a href="{{ route('salidas.index') }}" class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Cancelar</a>
-                            <button type="submit" class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Guardar</button>
-                        </div>                                         
+                            <button type="submit" id="guardar" class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Guardar</button>
+                        </div>   
+                                                              
                     </div>
 
                 </form>
@@ -91,7 +119,6 @@
         </div>
     </div>
 </x-app-layout>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script>   
@@ -104,72 +131,117 @@
             reader.readAsDataURL(this.files[0]); 
         });
     });
+    
 </script>
 
+
+
+
+
 <script>
+
+    
+
     $(document).ready(function(){
-        $("#agregar").click(function(){
+        $("#bt_add").click(function(){
+            agregar();
         });        
     });
-    var total=0;
-    var cont=1;
-    $("#guardar").hide();
-    $("#articulo_id").change(mostrarValores)
-    function mostrarValores()
-    {
-        datosArticulo= document.getElementById('articulo_id').value.split('_');
-        $("#stock").val(datosArticulo[2]);
+    
+    total=0;
+     var cont=1;
+     $("#guardar").hide();
+ 
+
+     $("#articulo_id").change(function() {
+    mostrarValores();
+});
+
+   function mostrarValores() {
+    var dataProducto = $("#articulo_id").val().split('_');
+    var stock = dataProducto[1];
+    $("#stock").val(stock);
+ 
     }
-    function agregar()
-    {
-        datosArticulo = document.getElementById('articulo_id').value.split('_');
 
-        articulo_id=datosArticulo[0];
-        articulo=$("#articulo_id option:selected").text();
-        cantidad=$("#cantidad").val();
-        stock=$("#stock").val();
-        if(articulo_id!="" && cantidad!="" && cantidad>0 && ){
-            if(parseInt(stock)>=parseInt(cantidad)){
-                var fila= <tr class="selected" id="fila' +cont+ '"><td><button 
-                type="button" class="btn btn-danger btn-sm" onclick="eliminar(' + cont + ');
-                "><i class="fa fa-times fa 2x"></i></button></td> <td><input type="hidden"
-                name="articulo_id[]" value="'+articulo_id+'">' + articulo + '</td> <td>
-                <input type="hidden" name="cantidad[]" value="'+cantidad+'"> <input 
-                type="number" value="'+cantidad+'" class="form-control"disabled> </td> </tr>;
+    function agregar() {
+    var articulo_id = $("#articulo_id").val();
+    var articulo = $("#articulo_id option:selected").text();
+    var cantidad = parseInt($("#cantidad").val());
+    // var descripcion = $("#descripcion").val();
+    var stock = parseInt($("#stock").val());
 
-                cont++;
-                limpiar();
-                 totales();
-                evaluar();
-                $('#detalles').append(fila);
-            }else{
-                Swal.fire({
-                    type: 'error',
-                    text: 'La cantidad supera al Stock. ',
-                })
-            }
-        }else{
-            Swal.fire({
+    if (articulo_id != "" && cantidad > 0 ) {
+        if(parseInt(stock)>=parseInt(cantidad)){             //
+        var fila = '<tr class="selected" id="fila' + cont + '">' +        
+            '<td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar(' + cont + ')"><i class="fa fa-times fa-2x"> X </i></button></td>' +
+            // '<td><button type="button" class="btn btn-danger" onclick="eliminar(' + cont + ')"><i class="fa fa-times"></i></button></td>' +
+            '<td><input type="hidden" name="id_articulo[]" value="' + articulo_id + '">' + articulo + '</td>' +
+            '<td><input type="number" name="cantidad[]" value="' + cantidad + '"></td>' +
+            // '<td><input type="text" name="descripcion[]" value="' + descripcion + '"></td>' +
+            '</tr>';
+
+        $('#detalles').append(fila);
+        cont++;
+        limpiar();
+        totales();
+        evaluar();
+    } else {
+        Swal.fire({
+            type: 'error',
+            text: 'ERROR, LA CANTIDAD SUPERA AL STOCK.',
+        });
+      }
+    }else{
+        Swal.fire({
                 type: 'error',
                 text: 'Rellene todos los campos del detalle de la salida. ',
             })
         }
-    }
+}
+ 
+
     function limpiar(){
-        $("#cantidad").val("");
+      
+        $("#cantidad").val("");   
+        // $("#descripcion").val("");                 
+       
     }
-    function evaluar() {
-        if(total>0)
-        {
-            $("#guardar").show();
-        }else{
-            $("#guardar").hide();
-        }
+    function totales() {
+    // Aquí debes calcular el total de la salida
+    total = 0;
+    $("input[name='cantidad[]']").each(function() {
+        total += parseInt($(this).val());
+    });
+    $("#total").html("PEN " + total.toFixed(2));
+}
+
+function evaluar() {
+    if (total > 0) {
+        $("#guardar").show();
+    } else {
+        $("#guardar").hide();
     }
+}
 
-   function eliminar(index){  }
-</script>
+   function eliminar(index){ 
+       $("#total").html("PEN"+ total);
+       $("#fila" + index).remove();
+       evaluar();
+   }
+
+</script> 
 
 
 
 
+
+
+{{-- 
+    $(document).ready(function() {
+        $('#articulo_id').on('change', function() {
+            var selectedOption = $(this).find('option:selected');
+            var stock = selectedOption.data('stock');
+            $('#stock').val(stock);
+     }); 
+    }); --}}

@@ -11,13 +11,17 @@ class detalleSalida extends Model
     protected $fillable=[
         'salida_id',
         'articulo_id',
-        'Cantidad',
-        'descripcion',
+        'cantidad',
+        // 'descripcion',
     ];
   
+ 
+    public function salida()
+    {
+        return $this->belongsTo(Salida::class);
+    }
     public function articulo()
     {
         return $this->belongsTo(Articulos::class);
     }
-  
 }

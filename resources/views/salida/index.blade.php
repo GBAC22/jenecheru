@@ -37,9 +37,13 @@
                                     <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Fecha
                                     </th>
+                                    
                                      <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Estado
-                                    </th>                                                                                                
+                                    </th>   
+                                     <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Acciones
+                                    </th>                                                                                              
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -51,20 +55,21 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $salida->fecha }}
-                                        </td>
+                                        </td>                                       
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $salida->estado }}
+                                            {{ $salida->status }}
                                         </td>
+                                       
                                         {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <img src="/imagen/{{$salida->imagen}}" width="30%">
                                         </td>                                         --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                                                            
-                                            <a href="{{ route('marca.show', $salida->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a>
-                                            <a href="{{ route('marca.edit', $salida->id) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Edit</a>                                              
+                                            <a href="{{ route('salidas.show', $salida->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a>
+                                            <a href="{{ route('salidas.edit', $salida->id) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Edit</a>                                              
               
-                                            <form class="inline-block" action="{{ route('marca.destroy', $marc->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                                            <form class="inline-block" action="{{ route('salidas.destroy', $salida->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                                 @csrf
                                                 @method('DELETE')                                                
                                                 <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">

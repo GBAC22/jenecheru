@@ -13,7 +13,7 @@ class UpdateSalidaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class UpdateSalidaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+       'articulo_id' => 'required|exists:articulos,id',
+            'cantidad' => 'required|integer',
         ];
     }
 }
