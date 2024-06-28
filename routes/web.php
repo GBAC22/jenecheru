@@ -5,14 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\NotaVentaController;
-use App\Http\Controllers\VentaController;
+use App\Http\Controllers\ProveedorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,4 +93,7 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
     Route::get('/users/{user}/bitacora', [UsersController::class, 'showBitacora'])->name('users.bitacora');
     Route::get('/bitacora/{userId}', [BitacoraController::class, 'showBitacora'])->name('show.bitacora');
 
+    //proveedores
+    Route::resource('proveedores', ProveedorController::class);
+    
 });
