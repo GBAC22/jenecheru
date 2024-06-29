@@ -15,8 +15,8 @@ class Venta extends Model
     public function articulos()
     {
         return $this->belongsToMany(Articulo::class)
-                    ->withPivot('cantidad', 'precio_unitario')
-                    ->withTimestamps();
+            ->withPivot('cantidad', 'precio_unitario')
+            ->withTimestamps();
     }
 
     public function user()
