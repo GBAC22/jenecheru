@@ -55,7 +55,6 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                                             <a href="{{ route('ventas.show', $venta->id) }}" class="text-indigo-600 hover:text-indigo-900">Ver</a>
-                                            <a href="{{ route('ventas.edit', $venta->id) }}" class="ml-4 text-indigo-600 hover:text-indigo-900">Editar</a>
                                             <form class="inline-block" action="{{ route('ventas.destroy', $venta->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta venta?')">
                                                 @csrf
                                                 @method('DELETE')
