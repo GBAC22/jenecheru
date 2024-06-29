@@ -84,6 +84,9 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
     Route::post('remove-from-cart', [ArticulosController::class, 'removeFromCart'])->name('remove_from_cart');
     Route::post('clear-cart', [ArticulosController::class, 'clearCart'])->name('clear_cart');
 
+    //Route::get('pagos/checkout', [StripeController::class, 'checkout'])->name('checkout');
+
+
     //factura del carrito
     Route::get('/invoice', [InvoiceController::class, 'print'])->name('invoice.print');
 

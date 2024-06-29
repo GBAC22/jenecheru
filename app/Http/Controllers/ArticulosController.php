@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Bitacora;
+
 class ArticulosController extends Controller
 {
     use WithFileUploads;
@@ -21,10 +22,10 @@ class ArticulosController extends Controller
         'codigo' => 'required|string',
         'nombre' => 'required|string',
         'imagen',
-        'precio_unitario' => 'required|numeric',
-        'precio_mayor' => 'required|numeric',
-        'precio_promedio' => 'nullable|numeric',
-        'stock' => 'required|integer',
+        'precio_unitario' => 'required|numeric|min:0',
+        'precio_mayor' => 'required|numeric|min:0',
+        'precio_promedio' => 'nullable|numeric|min:0',
+        'stock' => 'required|integer|min:0',
         'descripcion' => 'nullable|string',
 
         'categoria_id' => 'required|exists:categorias,id',
@@ -117,37 +118,44 @@ class ArticulosController extends Controller
         return redirect()->route('inventario.index')->with('success', 'Artículo eliminado correctamente');
     }
 
+
+
     public function home()
     {
         $articulos = Articulo::all();
         return view('pagos.checkout', compact('articulos'));
     }
 
+    //añade al carrito
     public function addToCart(Request $request)
     {
-        $articulo = Articulo::find($request->id);
-        $cart = session()->get('cart', []);
+        $id = $request->input('id');
+        $quantity = $request->input('quantity', 1);
 
-        if (isset($cart[$articulo->id])) {
-            $cart[$articulo->id]['quantity'] += $request->quantity;
+        $articulo = Articulo::findOrFail($id);
+
+        $cartItems = session()->get('cartItems', []);
+
+        if (isset($cartItems[$id])) {
+            $cartItems[$id]['quantity'] += $quantity;
         } else {
-            $cart[$articulo->id] = [
+            $cartItems[$id] = [
                 'id' => $articulo->id,
                 'name' => $articulo->nombre,
                 'price' => $articulo->precio_unitario,
-                'quantity' => $request->quantity,
-                'image' => $articulo->imagen
+                'quantity' => $quantity,
+                'image' => $articulo->imagen,
             ];
         }
 
-        session()->put('cart', $cart);
+        session()->put('cartItems', $cartItems);
 
-        return redirect()->back()->with('success', '¡Artículo agregado al carrito!');
+        return redirect()->back()->with('success', 'Artículo agregado al carrito.');
     }
 
     public function cart()
     {
-        $cartItems = session()->get('cart', []);
+        $cartItems = session()->get('cartItems', []);
         return view('pagos.carrito-index', compact('cartItems'));
     }
 
@@ -163,12 +171,15 @@ class ArticulosController extends Controller
         return redirect()->route('pagos.carrito-index')->with('error', '¡Artículo no encontrado en el carrito!');
     }
 
+    // CartController.php
     public function removeFromCart(Request $request)
     {
-        $cart = session()->get('cart', []);
-        if (isset($cart[$request->id])) {
-            unset($cart[$request->id]);
-            session()->put('cart', $cart);
+        $id = $request->input('id');
+        $cartItems = session()->get('cartItems', []);
+
+        if (isset($cartItems[$id])) {
+            unset($cartItems[$id]);
+            session()->put('cartItems', $cartItems);
             return redirect()->route('pagos.carrito-index')->with('success', '¡Artículo eliminado del carrito!');
         }
 
