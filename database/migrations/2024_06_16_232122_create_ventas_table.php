@@ -13,6 +13,8 @@ class CreateVentasTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('fecha');
             $table->decimal('total', 10, 2);
+            $table->string('metodo_de_pago'); // Agregar la columna metodo_de_pago aquí
+
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -25,6 +27,7 @@ class CreateVentasTable extends Migration
             $table->integer('cantidad');
             $table->decimal('precio_unitario', 10, 2);
             $table->decimal('importe', 10, 2); // Agregar la columna importe aquí
+
             $table->timestamps();
         
             $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade');

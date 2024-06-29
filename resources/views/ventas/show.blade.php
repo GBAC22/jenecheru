@@ -298,6 +298,10 @@
                                     <p class="font-semibold">Total:</p>
                                     <p>${{ $venta->total }}</p>
                                 </div>
+                                <div>
+                                    <p class="font-semibold">Metodo de Pago:</p>
+                                    <p>{{ $venta->metodo_de_pago }}</p>
+                                </div>
                             </div>
 
                             <div class="mt-6">
