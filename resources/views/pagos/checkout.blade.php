@@ -4,6 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Artículos Disponibles
             </h2>
+
+            <!-- Vista para el cliente con los articulos para el carrito -->
+
             <div class="relative">
                 <button id="dLabel" type="button" class="btn btn-primary relative flex items-center" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>

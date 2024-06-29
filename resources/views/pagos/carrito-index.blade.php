@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    <!-- REVISAR CARRITO -->
+
     <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="flex justify-end mb-8">
             <a href="{{ route('checkout') }}"

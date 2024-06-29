@@ -17,7 +17,6 @@ class StripeController extends Controller
 
     public function session(Request $request)
     {
-        // Asegúrate de que los IDs de los artículos y las cantidades se estén pasando correctamente desde el formulario
         $ids_articulos = $request->input('articulo_id');
         $articulos_quantities = $request->input('articulo_quantity');
 
