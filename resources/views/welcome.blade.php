@@ -8,7 +8,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CSS Neon Sign</title>
+  <title>Jenecheru</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento&display=swap">
   <style>
     body {
