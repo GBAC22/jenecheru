@@ -10,6 +10,7 @@ class Venta extends Model
         'user_id',
         'fecha',
         'total',
+        'metodo_de_pago'
     ];
 
     public function articulos()
