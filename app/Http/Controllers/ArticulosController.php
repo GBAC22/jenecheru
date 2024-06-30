@@ -126,7 +126,7 @@ class ArticulosController extends Controller
         return view('pagos.checkout', compact('articulos'));
     }
 
-    //añade al carrito
+    //añadir articulo al carrito
     public function addToCart(Request $request)
     {
         // Buscar el artículo por su ID
@@ -142,15 +142,28 @@ class ArticulosController extends Controller
 
         // Verificar si el artículo ya está en el carrito y actualizar la cantidad
         if (isset($cart[$articulo->id])) {
-            $cart[$articulo->id]['quantity'] += $request->quantity; // Sumar la cantidad actual con la nueva
+            $newQuantity = $cart[$articulo->id]['quantity'] + $request->quantity;
+
+            // Verificar si hay suficiente stock
+            if ($articulo->stock < $newQuantity) {
+                return back()->with('error', 'No hay suficiente stock para el artículo: ' . $articulo->nombre);
+            }
+
+            $cart[$articulo->id]['quantity'] = $newQuantity;
         } else {
+            // Verificar si hay suficiente stock
+            if ($articulo->stock < $request->quantity) {
+                return back()->with('error', 'No hay suficiente stock para el artículo: ' . $articulo->nombre);
+            }
+
             // Obtener datos del formulario
             $cart[$articulo->id] = [
                 'id' => $articulo->id,
                 'name' => $articulo->nombre,
                 'price' => $articulo->precio_unitario,
                 'quantity' => $request->quantity,
-                'image' => $articulo->imagen // Asegúrate de que $articulo->imagen sea la ruta o nombre correcto de la imagen
+                'image' => $articulo->imagen, // Asegúrate de que $articulo->imagen sea la ruta o nombre correcto de la imagen
+                'available_stock' => $articulo->stock // Agregar el stock disponible
             ];
         }
 
@@ -159,8 +172,9 @@ class ArticulosController extends Controller
 
         // Redireccionar de vuelta a la página de checkout (o donde sea necesario)
         return redirect()->back()->with('success', '¡Artículo agregado al carrito!');
-        //return redirect()->route('checkout')->with('success', 'Artículo añadido al carrito correctamente.');
     }
+
+
 
 
     public function cart()
