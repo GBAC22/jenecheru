@@ -75,7 +75,7 @@ class StripeController extends Controller
     public function success()
     {
         // Obtener los datos del carrito de la sesión
-        $cartItems = session()->get('cartItems', []);
+        $cartItems = session()->get('cart', []);
         $total = session()->get('total', 0);
 
         // Verificar si el carrito está vacío
@@ -116,11 +116,12 @@ class StripeController extends Controller
         }
 
         // Limpiar el carrito de la sesión
-        session()->forget('cartItems');
+        session()->forget('cart');
         session()->forget('total');
+        
 
         // Verificar si los valores han sido eliminados correctamente
-        $cartItems = session()->get('cartItems', []);
+        $cartItems = session()->get('cart', []);
         $total = session()->get('total', 0);
 
         if (empty($cartItems) && $total == 0) {
@@ -130,4 +131,5 @@ class StripeController extends Controller
             return redirect()->route('pagos.checkout')->with('error', 'Error al vaciar el carrito.');
         }
     }
+    
 }

@@ -28,13 +28,13 @@ class CartController extends Controller
             'attributes' => array()
         ));
 
-        return redirect()->back()->with('success', 'Producto añadido al carrito!');
+        return redirect()->back()->with('success', 'Articulo añadido al carrito!');
     }
 
     public function remove(Request $request)
     {
         Articulo::remove($request->id);
-        return redirect()->back()->with('success', 'Producto eliminado del carrito!');
+        return redirect()->back()->with('success', 'Articulo eliminado del carrito!');
     }
 
     public function clear()

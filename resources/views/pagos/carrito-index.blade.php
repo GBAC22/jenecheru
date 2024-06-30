@@ -70,8 +70,8 @@
 
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}"
-                                                    class="h-8 w-8 rounded-full">
+                                                <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}">
+                                                    
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ $item['name'] }}</td>

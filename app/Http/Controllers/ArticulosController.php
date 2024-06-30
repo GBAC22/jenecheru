@@ -129,33 +129,43 @@ class ArticulosController extends Controller
     //añade al carrito
     public function addToCart(Request $request)
     {
-        $id = $request->input('id');
-        $quantity = $request->input('quantity', 1);
+        // Buscar el artículo por su ID
+        $articulo = Articulo::find($request->id);
 
-        $articulo = Articulo::findOrFail($id);
+        // Añadir el artículo al carrito en la sesión
+        $cart = session()->get('cart', []);
 
-        $cartItems = session()->get('cartItems', []);
+        // Verificar si el artículo existe
+        if (!$articulo) {
+            return back()->with('error', 'El artículo no existe.');
+        }
 
-        if (isset($cartItems[$id])) {
-            $cartItems[$id]['quantity'] += $quantity;
+        // Verificar si el artículo ya está en el carrito y actualizar la cantidad
+        if (isset($cart[$articulo->id])) {
+            $cart[$articulo->id]['quantity'] += $request->quantity; // Sumar la cantidad actual con la nueva
         } else {
-            $cartItems[$id] = [
+            // Obtener datos del formulario
+            $cart[$articulo->id] = [
                 'id' => $articulo->id,
                 'name' => $articulo->nombre,
                 'price' => $articulo->precio_unitario,
-                'quantity' => $quantity,
-                'image' => $articulo->imagen,
+                'quantity' => $request->quantity,
+                'image' => $articulo->imagen // Asegúrate de que $articulo->imagen sea la ruta o nombre correcto de la imagen
             ];
         }
 
-        session()->put('cartItems', $cartItems);
+        // Guardar el carrito actualizado en la sesión
+        session()->put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Artículo agregado al carrito.');
+        // Redireccionar de vuelta a la página de checkout (o donde sea necesario)
+        return redirect()->back()->with('success', '¡Artículo agregado al carrito!');
+        //return redirect()->route('checkout')->with('success', 'Artículo añadido al carrito correctamente.');
     }
+
 
     public function cart()
     {
-        $cartItems = session()->get('cartItems', []);
+        $cartItems = session()->get('cart', []);
         return view('pagos.carrito-index', compact('cartItems'));
     }
 
@@ -174,18 +184,17 @@ class ArticulosController extends Controller
     // CartController.php
     public function removeFromCart(Request $request)
     {
-        $id = $request->input('id');
-        $cartItems = session()->get('cartItems', []);
-
-        if (isset($cartItems[$id])) {
-            unset($cartItems[$id]);
-            session()->put('cartItems', $cartItems);
+        $cart = session()->get('cart', []);
+        if (isset($cart[$request->id])) {
+            unset($cart[$request->id]);
+            session()->put('cart', $cart);
             return redirect()->route('pagos.carrito-index')->with('success', '¡Artículo eliminado del carrito!');
         }
 
         return redirect()->route('pagos.carrito-index')->with('error', '¡Artículo no encontrado en el carrito!');
     }
 
+    //vacia el carrito despues de pagar
     public function clearCart()
     {
         session()->forget('cart');

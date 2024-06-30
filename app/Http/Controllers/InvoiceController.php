@@ -16,7 +16,7 @@ class InvoiceController extends Controller
 
         // Calcular el total de la factura
         $total = array_reduce($cartItems, function($carry, $item) {
-            return $carry + ($item['price'] * $item['quantity']);
+            return $carry + $item['price'] * $item['quantity'];
         }, 0);
 
         // Obtener el cliente actualmente autenticado

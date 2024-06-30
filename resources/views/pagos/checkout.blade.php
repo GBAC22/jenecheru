@@ -4,18 +4,17 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Artículos Disponibles
             </h2>
-
             <div class="relative">
                 <button id="dLabel" type="button" class="btn btn-primary relative flex items-center" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                    <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full px-2 py-1 text-xs">{{ count(session('cartItems', [])) }}</span>
+                    <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full px-2 py-1 text-xs">{{ count(session('cart', [])) }}</span>
                 </button>
     
                 <div class="dropdown-menu dropdown-menu-end p-3 shadow-lg" aria-labelledby="dLabel" style="width: 300px;">
                     <h6 class="dropdown-header text-center">Artículos en el carrito</h6>
     
                     @php
-                        $cartItems = session('cartItems', []);
+                        $cartItems = session('cart', []);
                         $total = array_sum(array_map(function($item) {
                             return $item['price'] * $item['quantity'];
                         }, $cartItems));
@@ -60,8 +59,13 @@
         @endif
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <!-- Bootstrap JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
 
         <div class="container mx-auto px-4">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
