@@ -9,6 +9,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <form action="{{ route('pedidos.store') }}" method="POST">
                         @csrf
@@ -46,13 +55,14 @@
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $articulo->nombre }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $articulo->stock }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
+                                            <input type="hidden" name="articulos[{{ $articulo->id }}][id]" value="{{ $articulo->id }}">
                                             <input type="checkbox" name="articulos[{{ $articulo->id }}][seleccionado]" value="1" class="form-checkbox h-5 w-5 text-blue-600">
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <input type="number" name="articulos[{{ $articulo->id }}][cantidad]" value="1" min="1" class="border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 block w-full shadow-sm sm:text-sm rounded-md">
+                                            <input type="number" name="articulos[{{ $articulo->id }}][cantidad]" value="{{ old('articulos.'.$articulo->id.'.cantidad', 0) }}" min="0" class="border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 block w-full shadow-sm sm:text-sm rounded-md">
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <input type="number" name="articulos[{{ $articulo->id }}][precio_unitario]" value="{{ $articulo->precio }}" min="0" step="0.01" class="border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 block w-full shadow-sm sm:text-sm rounded-md">
+                                            <input type="number" name="articulos[{{ $articulo->id }}][precio_unitario]" value="{{ old('articulos.'.$articulo->id.'.precio_unitario', 0) }}" min="0" step="0.01" class="border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 block w-full shadow-sm sm:text-sm rounded-md">
                                         </td>
                                     </tr>
                                 @endforeach

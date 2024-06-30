@@ -12,19 +12,19 @@ use App\Models\Bitacora;
 class PedidoController extends Controller
 {
     
+    
     public function index()
     {
-        $pedidos = Pedido::with(['pedidos', 'user','proveedor'])->get();
+        // Cargar los pedidos con las relaciones user y proveedor
+        $pedidos = Pedido::with(['user', 'proveedor'])->get();
         return view('pedidos.index', compact('pedidos'));
     }
-
     
     public function create()
     {
         $proveedores = Proveedor::all();
         $articulosConStockBajo = Articulo::where('stock', '<=', Pedido::getStockMinimo())->get();
         return view('pedidos.create', compact('proveedores', 'articulosConStockBajo'));
-
     }
 
     public function store(Request $request)
@@ -35,9 +35,18 @@ class PedidoController extends Controller
             'articulos' => 'required|array',
             'articulos.*.seleccionado' => 'nullable|boolean',
             'articulos.*.id' => 'required_if:articulos.*.seleccionado,true|exists:articulos,id',
-            'articulos.*.cantidad' => 'required_if:articulos.*.seleccionado,true|integer|min:1',
-            'articulos.*.precio_unitario' => 'required_if:articulos.*.seleccionado,true|numeric|min:0',
+            'articulos.*.cantidad' => 'nullable|integer|min:0',
+            'articulos.*.precio_unitario' => 'nullable|numeric|min:0',
         ]);
+
+        // Verificar si al menos un artículo está seleccionado
+        $articulosSeleccionados = collect($request->articulos)->filter(function ($articulo) {
+            return isset($articulo['seleccionado']) && $articulo['seleccionado'];
+        });
+
+        if ($articulosSeleccionados->isEmpty()) {
+            return redirect()->back()->with('error', 'Debe seleccionar al menos un artículo para crear el pedido.');
+        }
 
         $user = auth()->user();
 
@@ -48,6 +57,8 @@ class PedidoController extends Controller
             'estado' => $request->estado,
             'total' => 0,
         ]);
+        
+        // Registro en la bitácora
         if (auth()->check()) {
             Bitacora::create([
                 'action' => 'Creación de pedido',
@@ -59,8 +70,8 @@ class PedidoController extends Controller
 
         foreach ($request->articulos as $articulo) {
             if (isset($articulo['seleccionado']) && $articulo['seleccionado']) {
-                $cantidad = $articulo['cantidad'];
-                $precioUnitario = $articulo['precio_unitario'];
+                $cantidad = $articulo['cantidad'] ?? 0;  // Si no se proporciona cantidad, se establece como 0
+                $precioUnitario = $articulo['precio_unitario'] ?? 0;  // Si no se proporciona precio_unitario, se establece como 0
                 $importe = $cantidad * $precioUnitario;
 
                 $pedido->articulos()->attach($articulo['id'], [
@@ -75,11 +86,8 @@ class PedidoController extends Controller
 
         $pedido->save();
 
-        
-
         return redirect()->route('pedidos.index')->with('success', 'Pedido creado correctamente');
     }
-
 
     public function setStockMinimo(Request $request)
     {
@@ -95,48 +103,115 @@ class PedidoController extends Controller
 
         return redirect()->back()->with('success', 'Stock mínimo actualizado correctamente.');
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pedido $pedido)
+    public function show($id)
     {
-        //
+        $pedido = Pedido::with(['articulos', 'user', 'proveedor'])->findOrFail($id);
+
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Visualización de pedido',
+                'details' => 'El detalle del pedido de ' . $pedido->user->name . ' ha sido visto',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
+
+        return view('pedidos.show', compact('pedido'));
+    }
+    public function edit($id)
+    {
+        $pedido = Pedido::findOrFail($id);
+        if($pedido->sw){
+            return redirect()->route('pedidos.index')->with('message', 'El pedido ya ha sido recibido y no puede ser modificado');
+        }
+        $articulos = $pedido->articulos()->get();
+        $user = $pedido->user;
+        $proveedores = Proveedor::all();
+        return view('pedidos.edit', compact('pedido', 'user', 'proveedores', 'articulos'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pedido $pedido)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Pedido $pedido)
     {
-        //
+        $request->validate([
+            'estado' => 'required|string|in:pendiente,cancelado,recibido',
+            'proveedor_id' => 'required|exists:proveedors,id',
+            'articulos' => 'required|array',
+            'articulos.*.id' => 'required|exists:articulos,id',
+            'articulos.*.cantidad' => 'required|integer|min:0',
+            'articulos.*.precio_unitario' => 'required|numeric|min:0',
+        ]);
+
+        // Actualizar el estado y el proveedor del pedido
+        $pedido->estado = $request->estado;
+        $pedido->proveedor_id = $request->proveedor_id;
+
+        // Calcular el nuevo total
+        $total = 0;
+
+        foreach ($request->articulos as $articulo) {
+            $cantidad = $articulo['cantidad'];
+            $precioUnitario = $articulo['precio_unitario'];
+            $importe = $cantidad * $precioUnitario;
+
+            // Actualizar el artículo del pedido
+            $pedido->articulos()->updateExistingPivot($articulo['id'], [
+                'cantidad' => $cantidad,
+                'precio' => $precioUnitario,
+                'importe' => $importe,
+            ]);
+
+            // Sumar al total del pedido
+            $total += $importe;
+        }
+
+        // Actualizar el total del pedido
+        $pedido->total = $total;
+
+        // Si el estado es 'recibido', actualizar el stock de los artículos
+        if ($pedido->estado === 'recibido') {
+            foreach ($request->articulos as $articulo) {
+                $articuloModel = Articulo::find($articulo['id']);
+                $articuloModel->stock += $articulo['cantidad'];
+                $articuloModel->save();
+            }
+
+            // Cambiar el valor de sw a true
+            $pedido->sw = true;
+        }
+
+        $pedido->save();
+
+        // Registro en la bitácora
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Actualización de pedido',
+                'details' => 'El pedido de ' . $pedido->user->name . ' ha sido actualizado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
+
+        return redirect()->route('pedidos.index')->with('success', 'Pedido actualizado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Pedido $pedido)
+    
+    public function destroy($id)
     {
-        //
+        $pedido = Pedido::findOrFail($id);
+
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Eliminacion del pedido',
+                'details' => 'El pedido de ' . $pedido->user->name . ' ha sido eliminado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
+
+        $pedido->articulos()->detach();
+        $pedido->proveedor()->dissociate(); 
+        $pedido->delete();
+        return redirect()->route('pedidos.index')->with('success', 'Pedido eliminado correctamente');
     }
 }
