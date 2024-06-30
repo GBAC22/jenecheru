@@ -36,11 +36,17 @@
                                     </th>
                                     <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Fecha
-                                    </th>
-                                    
+                                    </th>  
+                                    <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Total
+                                    </th>                                   
                                      <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Estado
                                     </th>   
+                                    <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Descripcion
+                                    </th>  
+                                  
                                      <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Acciones
                                     </th>                                                                                              
@@ -55,11 +61,18 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $salida->fecha }}
-                                        </td>                                       
+                                        </td>          
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $salida->total }}
+                                        </td>                             
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $salida->status }}
                                         </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $salida->descripcion }}
+                                        </td>
+                                        
                                        
                                         {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <img src="/imagen/{{$salida->imagen}}" width="30%">

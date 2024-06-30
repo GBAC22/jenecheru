@@ -16,9 +16,10 @@ class CreateSalidasTable extends Migration
         Schema::create('salidas', function (Blueprint $table) {
             $table->id();
      
-            $table->dateTime('fecha');          
+            $table->dateTime('fecha');
+            $table->decimal('total');
             $table->enum('status',['VALIDO','CANCELADO'])->defaul('VALIDO');
-            $table->enum('descripcion',['EMPRESA','MAL ESTADO'])->defaul('EMPRESA'); 
+            $table->enum('descripcion',['ARTICULO OBSOLETO','ARTICULO DAÑADO'])->defaul('ARTICULO OBSOLETO'); 
             $table->timestamps();
         });
     }

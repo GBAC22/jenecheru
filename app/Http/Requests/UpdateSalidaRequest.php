@@ -24,8 +24,8 @@ class UpdateSalidaRequest extends FormRequest
     public function rules()
     {
         return [
-       'articulo_id' => 'required|exists:articulos,id',
-            'cantidad' => 'required|integer',
+            // 'articulo_id' => 'required|exists:articulos,id',
+            // 'cantidad' => 'required|integer',
         ];
     }
 }

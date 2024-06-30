@@ -12,7 +12,8 @@ class detalleSalida extends Model
         'salida_id',
         'articulo_id',
         'cantidad',
-        // 'descripcion',
+        'detalle',
+        'precio',
     ];
   
  
@@ -24,4 +25,5 @@ class detalleSalida extends Model
     {
         return $this->belongsTo(Articulos::class);
     }
+    
 }

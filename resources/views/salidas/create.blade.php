@@ -16,7 +16,7 @@
                               <option value="" disabled selected>Seleccione un articulo</option>
                               
                                @foreach($articulos as $articulo)                            
-                                  <option value="{{ $articulo->id }}_{{ $articulo->stock }}">{{ $articulo->nombre }} </option>
+                                  <option value="{{ $articulo->id }}_{{ $articulo->stock }}_{{$articulo->precio_unitario}}">{{ $articulo->nombre }} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -30,8 +30,16 @@
                             <label for="cantidad" class="block font-medium text-sm text-gray-700">Cantidad</label>
                             <input type="number" name="cantidad" id="cantidad" class="form-input rounded-md shadow-sm mt-1 block w-full"  aria-describedby="helpId"                                    />
                         </div>
-                        
-
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="precio" class="block font-medium text-sm text-gray-700">Costo de la Salida</label>
+                            <input type="number" name="precio" id="precio" class="form-input rounded-md shadow-sm mt-1 block w-full "disabled/>
+                        </div>
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="detalle" class="block font-medium text-sm text-gray-700">Detalle</label>
+                            <input type="text" name="detalle" id="detalle" class="form-input rounded-md shadow-sm mt-1 block w-full"  aria-describedby="helpId"                                    />
+                        </div>
+                       
+                                                            
                         <div class="px-4 py-5 bg-white sm:p-6 mb-4">
                             <button type = "button" id="bt_add" class="btn btn-primary float-right   w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2" > 
                                 Agregar Articulo 
@@ -55,9 +63,17 @@
                                                 Articulo
                                             </th>
                                             <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> 
-                                                Cantidad
+                                                Detalle
                                             </th>
-                                       
+                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> 
+                                                Costo de Salida(PEN)
+                                            </th>
+                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> 
+                                                Cantidad
+                                            </th>                                                                                                                                                                      
+                                            <th scope="col" width="100" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "> 
+                                                SubTotal(PEN)
+                                            </th>
                                         </tr>  
                                     </thead>
                                     
@@ -65,10 +81,20 @@
                                     <tfoot>
                                         <tr>
                                             <th colspan="4">
-                                                <p align="right"> TOTAL: </p>
+                                                <p align="right"  style="text-align: left;"> TOTAL: </p>
                                             </th>
                                             <th>
-                                                <p align="right"> <span id="total"> PEN 0.00 </span> </p>
+                                                <p  align="right" style="text-align: left;"> <span id="total">PEN 0.00</span> </p>
+                                            </th>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <th colspan="4">
+                                                <p align="right"  style="text-align: left;"> TOTAL A PAGAR: </p>
+                                            </th>
+                                            <th>
+                                                <p align="right" style="text-align: left;"> <span id="total_pagar_html">PEN 0.00</span> 
+                                                    <input type="hidden" name="total" id="total_pagar"> </p>
                                             </th>
                                         </tr>
                                     </tfoot>
@@ -148,19 +174,21 @@
         });        
     });
     
-    total=0;
+  
      var cont=1;
+     var total=0;
+     var subtotal=[];
      $("#guardar").hide();
- 
-
      $("#articulo_id").change(function() {
     mostrarValores();
 });
 
    function mostrarValores() {
     var dataProducto = $("#articulo_id").val().split('_');
-    var stock = dataProducto[1];
+    var stock = dataProducto[1];    
     $("#stock").val(stock);
+    var precio = dataProducto[2];
+    $("#precio").val(precio);
  
     }
 
@@ -168,28 +196,34 @@
     var articulo_id = $("#articulo_id").val();
     var articulo = $("#articulo_id option:selected").text();
     var cantidad = parseInt($("#cantidad").val());
-    // var descripcion = $("#descripcion").val();
+    var precio = parseInt($("#precio").val());
+    var detalle = $("#detalle").val();
     var stock = parseInt($("#stock").val());
 
     if (articulo_id != "" && cantidad > 0 ) {
         if(parseInt(stock)>=parseInt(cantidad)){             //
-        var fila = '<tr class="selected" id="fila' + cont + '">' +        
-            '<td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar(' + cont + ')"><i class="fa fa-times fa-2x"> X </i></button></td>' +
-            // '<td><button type="button" class="btn btn-danger" onclick="eliminar(' + cont + ')"><i class="fa fa-times"></i></button></td>' +
-            '<td><input type="hidden" name="id_articulo[]" value="' + articulo_id + '">' + articulo + '</td>' +
-            '<td><input type="number" name="cantidad[]" value="' + cantidad + '"></td>' +
-            // '<td><input type="text" name="descripcion[]" value="' + descripcion + '"></td>' +
-            '</tr>';
-
-        $('#detalles').append(fila);
+        subtotal[cont]=cantidad*precio;
+        total=total + subtotal[cont];
+                // class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a>
+                // '<i class="text-red-600 hover:text-red-900 mb-2 mr-2"> Eliminar</button></i></td>' +
+                var fila = '<tr class="selected" id="fila' + cont + '" style="text-align: center; background-color: #f2f2f2; color: #333;">' +        
+             '<td style="padding: 10px;"><button type="button" class="text-red-600 hover:text-red-900 mb-2 mr-2" onclick="eliminar(' + cont + ')"><i class="fa fa-times fa-2x text-xl"> X </i></button></td>'+
+            '<td><input type="hidden" name="articulo_id[]" value="' + articulo_id + '">' + articulo + '</td>' +
+            '<td><input type="text" name="detalle[]" value="' + detalle + '"></td>' +
+            '<td><input type="number" name="precio[]" value="' + precio.toFixed(2) + '"></td>' +
+            '<td><input type="number" name="cantidad[]" value="' + cantidad + '"></td>' +            
+           '<td style="text-align: left;">s/' + subtotal[cont].toFixed(2) + '</td>'
+           '</tr>';
+       
         cont++;
         limpiar();
         totales();
         evaluar();
+        $('#detalles').append(fila);
     } else {
         Swal.fire({
             type: 'error',
-            text: 'ERROR, LA CANTIDAD SUPERA AL STOCK.',
+            text: 'LA CANTIDAD SUPERA AL STOCK.',
         });
       }
     }else{
@@ -204,16 +238,22 @@
     function limpiar(){
       
         $("#cantidad").val("");   
-        // $("#descripcion").val("");                 
-       
+        $("#detalle").val("");                 
+        $("#precio").val(""); 
     }
     function totales() {
     // Aquí debes calcular el total de la salida
-    total = 0;
-    $("input[name='cantidad[]']").each(function() {
-        total += parseInt($(this).val());
-    });
+     
+    // $("input[name='cantidad[]']").each(function() {
+    //     total += parseInt($(this).val());
+    // });
+    // $("#total").html("PEN " + total.toFixed(2));
     $("#total").html("PEN " + total.toFixed(2));
+    total_pagar=total;
+
+    $("#total_pagar_html").html("PEN"+ total_pagar.toFixed(2));
+    $("#total_pagar").val(total_pagar.toFixed(2));
+
 }
 
 function evaluar() {
@@ -225,8 +265,13 @@ function evaluar() {
 }
 
    function eliminar(index){ 
+       total=total - subtotal[index];
+       total_pagar_html=total;
        $("#total").html("PEN"+ total);
+       $("total_pagar_html").html("PEN"+ total_pagar_html);
+       $("total_pagar").val(total_pagar_html.toFixed(2));
        $("#fila" + index).remove();
+       alert("Deseas eliminar el detalle de la Salida."); 
        evaluar();
    }
 

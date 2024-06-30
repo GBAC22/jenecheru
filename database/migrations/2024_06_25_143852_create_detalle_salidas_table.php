@@ -16,12 +16,14 @@ class CreateDetalleSalidasTable extends Migration
         Schema::create('detalle_salidas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('salida_id');            
-            $table->foreign('salida_id')->references('id')->on('salidas');
+            $table->foreign('salida_id')->references('id')->on('salidas')->onDelete('cascade');
 
             $table->unsignedBigInteger('articulo_id'); 
-            $table->foreign('articulo_id')->references('id')->on('articulos');
+            $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade');
             $table->integer('cantidad');
-           
+            $table->string('detalle');
+            $table->decimal('precio');
+
             $table->timestamps();
         });
     }

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-use Controllers\SalidaController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,14 +9,16 @@ class Salida extends Model
     use HasFactory;
 
     protected $fillable=[       
-        'fecha',        
+        'fecha',  
+        'total',      
         'status',
-        'descripcion',
+        'descripcion',        
     ];
 
    
-    public function dellateSalida()
+    public function detalleSalida()
     {
         return $this->hasMany(detalleSalida::class);
     }
+
 }
