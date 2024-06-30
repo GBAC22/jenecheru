@@ -60,6 +60,13 @@ class Articulo extends Model
         return $this->belongsTo(Modelo::class);
     }
 
+    public function pedidos()
+    {
+        return $this->belongsToMany(Pedido::class, 'pedido_articulo')
+                    ->withPivot('cantidad', 'precio','importe')
+                    ->withTimestamps();
+    }
+
     public function ventas()
     {
         return $this->belongsToMany(Venta::class)

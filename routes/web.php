@@ -14,6 +14,7 @@ use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NotaVentaController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\PedidoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,5 +96,8 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
 
     //proveedores
     Route::resource('proveedores', ProveedorController::class);
+    
+    //pedidos
+    Route::resource('pedidos', PedidoController::class);
     
 });

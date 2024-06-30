@@ -26,4 +26,5 @@ class Articulos extends Model
     {
         return $this->hasMany(Venta::class);
     }
+    
 }
