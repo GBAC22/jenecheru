@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Stripe\Stripe;
 use App\Models\Venta;
 use App\Models\Factura;
@@ -83,53 +84,80 @@ class StripeController extends Controller
             return redirect()->route('pagos.checkout')->with('error', 'El carrito está vacío.');
         }
 
-        // Crear la venta en la base de datos
-        $venta = Venta::create([
-            'user_id' => auth()->id(), // Obtener el ID del usuario autenticado
-            'fecha' => now(), // Guardar la fecha actual
-            'total' => $total, // Guardar el total de la venta
-        ]);
+        try {
+            // Iniciar una transacción para asegurar la consistencia de los datos
+            \DB::transaction(function () use ($cartItems, $total) {
+                // Primero, verificar si hay suficiente stock para todos los artículos
+                foreach ($cartItems as $item) {
+                    // Buscar el artículo
+                    $articulo = Articulo::find($item['id']);
+                    if (!$articulo) {
+                        throw new \Exception('El artículo no existe: ' . $item['name']);
+                    }
+                    // Verificar si hay suficiente stock
+                    if ($articulo->stock < $item['quantity']) {
+                        throw new \Exception('No hay suficiente stock para el artículo: ' . $articulo->nombre);
+                    }
+                }
 
-        // Guardar los detalles de cada artículo en la venta
-        foreach ($cartItems as $item) {
-            $venta->articulos()->attach($item['id'], [
-                'cantidad' => $item['quantity'],
-                'precio_unitario' => $item['price'],
-                'importe' => $item['price'] * $item['quantity'],
-            ]);
-        }
+                // Crear la venta en la base de datos
+                $venta = Venta::create([
+                    'user_id' => auth()->id(), // Obtener el ID del usuario autenticado
+                    'fecha' => now(), // Guardar la fecha actual
+                    'total' => $total, // Guardar el total de la venta
+                ]);
 
-        // Crear la factura en la base de datos
-        $factura = Factura::create([
-            'user_id' => auth()->id(),
-            'nombre' => 'Factura ' . now()->format('d-m-Y H:i:s'),
-            'subtotal' => $total,
-            'total' => $total,
-        ]);
+                // Guardar los detalles de cada artículo en la venta y descontar del stock
+                foreach ($cartItems as $item) {
+                    // Buscar el artículo
+                    $articulo = Articulo::find($item['id']);
 
-        // Guardar los detalles de cada artículo en la factura
-        foreach ($cartItems as $item) {
-            $factura->articulos()->attach($item['id'], [
-                'cantidad' => $item['quantity'],
-                'precio_unitario' => $item['price'],
-            ]);
-        }
+                    // Descontar del stock
+                    $articulo->stock -= $item['quantity'];
+                    $articulo->save();
 
-        // Limpiar el carrito de la sesión
-        session()->forget('cart');
-        session()->forget('total');
-        
+                    // Guardar el detalle de la venta
+                    $venta->articulos()->attach($item['id'], [
+                        'cantidad' => $item['quantity'],
+                        'precio_unitario' => $item['price'],
+                        'importe' => $item['price'] * $item['quantity'],
+                    ]);
+                }
 
-        // Verificar si los valores han sido eliminados correctamente
-        $cartItems = session()->get('cart', []);
-        $total = session()->get('total', 0);
+                // Crear la factura en la base de datos
+                $factura = Factura::create([
+                    'user_id' => auth()->id(),
+                    'nombre' => 'Factura ' . now()->format('d-m-Y H:i:s'),
+                    'subtotal' => $total,
+                    'total' => $total,
+                ]);
 
-        if (empty($cartItems) && $total == 0) {
-            // Redirigir a la vista de checkout con un mensaje de éxito
-            return redirect()->route('pagos.checkout')->with('success', 'Pago completado con éxito');
-        } else {
-            return redirect()->route('pagos.checkout')->with('error', 'Error al vaciar el carrito.');
+                // Guardar los detalles de cada artículo en la factura
+                foreach ($cartItems as $item) {
+                    $factura->articulos()->attach($item['id'], [
+                        'cantidad' => $item['quantity'],
+                        'precio_unitario' => $item['price'],
+                    ]);
+                }
+
+                // Limpiar el carrito de la sesión
+                session()->forget('cart');
+                session()->forget('total');
+            });
+
+            // Verificar si los valores han sido eliminados correctamente
+            $cartItems = session()->get('cart', []);
+            $total = session()->get('total', 0);
+
+            if (empty($cartItems) && $total == 0) {
+                // Redirigir a la vista de checkout con un mensaje de éxito
+                return redirect()->route('pagos.checkout')->with('success', 'Pago completado con éxito');
+            } else {
+                return redirect()->route('pagos.checkout')->with('error', 'Error al vaciar el carrito.');
+            }
+        } catch (\Exception $e) {
+            // Manejar la excepción y redirigir con un mensaje de error
+            return redirect()->route('pagos.checkout')->with('error', $e->getMessage());
         }
     }
-    
 }
