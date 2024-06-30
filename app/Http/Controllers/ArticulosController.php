@@ -162,7 +162,8 @@ class ArticulosController extends Controller
                 'name' => $articulo->nombre,
                 'price' => $articulo->precio_unitario,
                 'quantity' => $request->quantity,
-                'image' => $articulo->imagen // Asegúrate de que $articulo->imagen sea la ruta o nombre correcto de la imagen
+                'image' => $articulo->imagen, // Asegúrate de que $articulo->imagen sea la ruta o nombre correcto de la imagen
+                'available_stock' => $articulo->stock // Agregar el stock disponible
             ];
         }
 
@@ -172,6 +173,8 @@ class ArticulosController extends Controller
         // Redireccionar de vuelta a la página de checkout (o donde sea necesario)
         return redirect()->back()->with('success', '¡Artículo agregado al carrito!');
     }
+
+
 
 
     public function cart()

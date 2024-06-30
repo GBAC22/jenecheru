@@ -6,7 +6,7 @@
     </x-slot>
 
     <!-- REVISAR CARRITO -->
-    
+
 
     <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="flex justify-end mb-8">
@@ -72,7 +72,7 @@
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}">
-                                                    
+
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ $item['name'] }}</td>
