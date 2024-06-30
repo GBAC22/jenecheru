@@ -35,14 +35,14 @@ class CreateArticulosTable extends Migration
             $table->foreign('modelo_id')->references('id')->on('modelos')->onDelete('cascade');
         });
 
-        // Alternativamente, puedes agregar restricciones de chequeo (check constraints):
+        /*/ Alternativamente, puedes agregar restricciones de chequeo (check constraints):
         Schema::table('articulos', function (Blueprint $table) {
             $table->check('codigo >= 0');
             $table->check('precio_unitario >= 0');
             $table->check('precio_mayor >= 0');
             $table->check('precio_promedio >= 0');
             $table->check('stock >= 0');
-        });
+        });*/
     }
 
 
