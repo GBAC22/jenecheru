@@ -126,6 +126,9 @@
                                 <x-jet-dropdown-link href="{{ route('notaventa.index') }}" :active="request()->routeIs('notaventa.*')">
                                     Notas de Venta
                                 </x-jet-dropdown-link>
+                                <x-jet-dropdown-link href="{{ route('nota_devolucion.index') }}" :active="request()->routeIs('nota_devolucion.*')">
+                                    Nota de Devolucion
+                                </x-jet-dropdown-link>
                             </x-slot>
                         </x-jet-dropdown>
                     </div>
