@@ -231,8 +231,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // Otros aliases...
         
-        //'PDF'=>Barryvdh\DomPDF\Facade::class,
-        // 'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF'=>Barryvdh\DomPDF\Facade::class,
+        
     ],
 
 ];
