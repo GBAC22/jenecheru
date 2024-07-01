@@ -205,7 +205,7 @@ class VentaController extends Controller
                 $query->whereYear('fecha', now()->year)
                     ->whereMonth('fecha', now()->month);
                 break;
-            case 'anio':
+            case 'año':
                 $query->whereYear('fecha', now()->year);
                 break;
             default:
