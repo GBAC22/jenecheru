@@ -20,10 +20,19 @@
                     </div>
 
                     <div class="mt-6 text-gray-500">
-                        <div class="flex justify-end mb-6">
+                        <div class="flex justify-end mb-6 space-x-4">
                             <a href="{{ route('ventas.create') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                                 Nueva Venta
                             </a>
+                            <button onclick="imprimirVentas('dia')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Imprimir Ventas del Día
+                            </button>
+                            <button onclick="imprimirVentas('mes')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Imprimir Ventas del Mes
+                            </button>
+                            <button onclick="imprimirVentas('anio')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Imprimir Ventas del Año
+                            </button>
                         </div>
 
                         <table class="min-w-full divide-y divide-gray-200">
@@ -70,4 +79,27 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function imprimirVentas(periodo) {
+            // Obtener la fecha actual
+            let fecha = new Date();
+            let dia = fecha.getDate();
+            let mes = fecha.getMonth() + 1; // Los meses van de 0 a 11 en JavaScript
+            let anio = fecha.getFullYear();
+
+            // Generar la URL para la impresión según el período seleccionado
+            let url = '';
+            if (periodo === 'dia') {
+                url = `{{ route('ventas.print', ['periodo' => 'dia', 'fecha' => '']) }}/${anio}-${mes}-${dia}`;
+            } else if (periodo === 'mes') {
+                url = `{{ route('ventas.print', ['periodo' => 'mes', 'fecha' => '']) }}/${anio}-${mes}`;
+            } else if (periodo === 'anio') {
+                url = `{{ route('ventas.print', ['periodo' => 'anio', 'fecha' => '']) }}/${anio}`;
+            }
+
+            // Abrir la ventana para imprimir
+            window.open(url, '_blank');
+        }
+    </script>
 </x-app-layout>
