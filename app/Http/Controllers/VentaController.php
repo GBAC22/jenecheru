@@ -184,6 +184,37 @@ class VentaController extends Controller
         return redirect()->route('ventas.index')->with('success', 'Venta editada correctamente');
     }
 
+    public function print(Request $request, $periodo, $fecha = null)
+    {
+        // Lógica para obtener las ventas según el periodo y la fecha
+        $ventas = $this->obtenerVentasSegunPeriodo($periodo, $fecha);
+
+        // Devolver una vista para mostrar las ventas impresas
+        return view('ventas.print', compact('ventas', 'periodo', 'fecha'));
+    }
+
+    protected function obtenerVentasSegunPeriodo($periodo, $fecha = null)
+    {
+        $query = Venta::query();
+
+        switch ($periodo) {
+            case 'dia':
+                $query->whereDate('fecha', now()->format('Y-m-d'));
+                break;
+            case 'mes':
+                $query->whereYear('fecha', now()->year)
+                    ->whereMonth('fecha', now()->month);
+                break;
+            case 'anio':
+                $query->whereYear('fecha', now()->year);
+                break;
+            default:
+                throw new \InvalidArgumentException('Período no válido');
+        }
+
+        return $query->get();
+    }
+
     public function destroy($id)
     {
         $venta = Venta::findOrFail($id);
