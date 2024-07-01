@@ -1,3 +1,4 @@
+@can('user_access')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -18,8 +19,18 @@
                                @foreach($articulos as $articulo)                            
                                   <option value="{{ $articulo->id }}_{{ $articulo->stock }}_{{$articulo->precio_unitario}}">{{ $articulo->nombre }} </option>
                                 @endforeach
-                            </select>
+                            </select>                            
                         </div>
+                        {{-- <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="user_id" class="block font-medium text-sm text-gray-700">Usuario</label>
+                            <select  name="user_id" id="user_id" class="form-input rounded-md shadow-sm mt-1 block w-full"                                    />
+                              <option value="" disabled selected>Seleccione a un usuario</option>
+                              
+                               @foreach($users as $user)                            
+                                  <option value="{{ $user->id }}">{{ $user->nombre }} </option>
+                                @endforeach
+                            </select>                            
+                        </div> --}}
                        
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="stock" class="block font-medium text-sm text-gray-700">Stock actual</label>
@@ -145,6 +156,7 @@
         </div>
     </div>
 </x-app-layout>
+@endcan
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script>   

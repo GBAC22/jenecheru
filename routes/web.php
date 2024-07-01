@@ -52,7 +52,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/marca', MarcaController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
+
     Route::resource('salidas', SalidaController::class);
+    Route::get('salidas/pdf/{salida}', [SalidaController::class, 'pdf'])->name('salidas.pdf');
+    
+    Route::get('salidas/change_status/{salida}', [SalidaController::class, 'change_status'])->name('salidas.change_status');
+    Route::get('salidas/descrip/{salida}', [SalidaController::class, 'descrip'])->name('salidas.descrip');
+
+
+    //Route::get('/generar-pdf/{userId}', [BitacoraController::class, 'generatePDF'])->name('generate.pdf');
+    //  Route::get('/generar-pdf/{userId}', [BitacoraController::class, 'generatePDF'])->name('generate.pdf');
+
+
 
     // Para Livewire componentes normalmente no se definen de esta manera
     Route::resource('articulos', Articulos::class);
@@ -65,7 +76,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
     Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
     
-
 
 
 // Rutas para listar, crear, almacenar, mostrar, editar, actualizar y eliminar ventas

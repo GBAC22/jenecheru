@@ -8,7 +8,8 @@ class Salida extends Model
 {
     use HasFactory;
 
-    protected $fillable=[       
+    protected $fillable=[  
+        'user_id',
         'fecha',  
         'total',      
         'status',
@@ -16,9 +17,13 @@ class Salida extends Model
     ];
 
    
-    public function detalleSalida()
+    public function detalleSalidas()
     {
         return $this->hasMany(detalleSalida::class);
+    }
+    public function user()
+    {
+        return $this->hasMany(User::class);
     }
 
 }
