@@ -13,7 +13,7 @@ class CreateVentasTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('fecha');
             $table->decimal('total', 10, 2);
-            $table->string('metodo_de_pago'); // Agregar la columna metodo_de_pago aquí
+            $table->string('metodo_de_pago')->nullable(); // Agregar la columna metodo_de_pago aquí
 
             $table->timestamps();
 
