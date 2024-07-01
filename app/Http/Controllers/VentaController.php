@@ -25,7 +25,6 @@ class VentaController extends Controller
 
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'articulos_seleccionados' => 'required|array',
@@ -33,10 +32,8 @@ class VentaController extends Controller
             'metodo_de_pago' => 'required|in:efectivo,tarjeta,qr,otro',
         ]);
 
-        // Obtener los artículos seleccionados
         $articulosSeleccionados = Articulo::whereIn('id', $request->articulos_seleccionados)->get();
 
-        // Verificar el stock de los artículos
         foreach ($articulosSeleccionados as $articulo) {
             $cantidadSeleccionada = $request->input('articulos.' . $articulo->id . '.cantidad', 0);
             if ($cantidadSeleccionada > $articulo->stock) {
@@ -44,40 +41,33 @@ class VentaController extends Controller
             }
         }
 
-        // Crear nueva venta con fecha actual
         $venta = Venta::create([
             'user_id' => $request->user_id,
             'fecha' => now(),
-            'total' => 0, // Inicializar el total en 0
+            'total' => 0, 
             'metodo_de_pago' => $request->metodo_de_pago,
         ]);
 
-        // Adjuntar artículos a la venta con cantidad y precio_unitario
-        $totalVenta = 0; // Variable para calcular el total de la venta
+        $totalVenta = 0; 
 
         foreach ($articulosSeleccionados as $articulo) {
             $cantidad = $request->input('articulos.' . $articulo->id . '.cantidad', 0);
             $precioUnitario = $request->input('articulos.' . $articulo->id . '.precio_unitario', $articulo->precio_promedio);
             $importe = $cantidad * $precioUnitario;
 
-            // Adjuntar el artículo a la venta con los detalles
             $venta->articulos()->attach($articulo->id, [
                 'cantidad' => $cantidad,
                 'precio_unitario' => $precioUnitario,
                 'importe' => $importe,
             ]);
 
-            // Actualizar el stock del artículo
             $articulo->decrement('stock', $cantidad);
 
-            // Sumar al total de la venta
             $totalVenta += $importe;
         }
 
-        // Actualizar el total calculado de la venta
         $venta->update(['total' => $totalVenta]);
 
-        // Registrar en la bitácora si el usuario está autenticado
         if (auth()->check()) {
             Bitacora::create([
                 'action' => 'Creación de nota de venta',
@@ -87,7 +77,6 @@ class VentaController extends Controller
             ]);
         }
 
-        // Redireccionar con mensaje de éxito
         return redirect()->route('ventas.index')->with('success', 'Venta creada correctamente');
     }
     
@@ -186,10 +175,8 @@ class VentaController extends Controller
 
     public function print(Request $request, $periodo, $fecha = null)
     {
-        // Lógica para obtener las ventas según el periodo y la fecha
         $ventas = $this->obtenerVentasSegunPeriodo($periodo, $fecha);
 
-        // Devolver una vista para mostrar las ventas impresas
         return view('ventas.print', compact('ventas', 'periodo', 'fecha'));
     }
 
