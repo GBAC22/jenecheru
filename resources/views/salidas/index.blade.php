@@ -78,7 +78,7 @@
                                         </td>  
                                     @else  
                                         <td>
-                                            <a class="text-red-600 bg-red-200 border border-red-200" href="{{ route('salidas.descrip', $salida) }}" title="Editar">
+                                            <a class="text-red-600 bg-red-200 border border-red-200" href="{{ route('salidas.change_status', $salida) }}" title="Editar">
                                                 CANCELADO <i class="fas fa-times"></i>
                                             </a>
                                         </td> 
