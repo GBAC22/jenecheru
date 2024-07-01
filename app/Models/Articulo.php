@@ -45,6 +45,7 @@ class Articulo extends Model
             }
         });
     }
+
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);
@@ -70,8 +71,16 @@ class Articulo extends Model
     public function ventas()
     {
         return $this->belongsToMany(Venta::class)
-                    ->withPivot('cantidad', 'precio_unitario')
-                    ->withTimestamps();
+            ->withPivot('cantidad', 'precio_unitario')
+            ->withTimestamps();
+    }
+
+    //implementación para facturas
+    public function factura()
+    {
+        return $this->belongsToMany(Factura::class)
+            ->withPivot('cantidad', 'precio_unitario')
+            ->withTimestamps();
     }
 
     public function getContent()

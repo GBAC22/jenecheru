@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SalidaController;
 use App\Http\Livewire\Articulos;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarcaController;
@@ -54,6 +55,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
 
+    Route::resource('salidas', SalidaController::class);
+    Route::get('salidas/pdf/{salida}', [SalidaController::class, 'pdf'])->name('salidas.pdf');    
+    Route::get('salidas/change_status/{salida}', [SalidaController::class, 'change_status'])->name('salidas.change_status');
+    Route::get('salidas/descrip/{salida}', [SalidaController::class, 'descrip'])->name('salidas.descrip');
+
+
+
+
 
     // Para Livewire componentes normalmente no se definen de esta manera
     Route::resource('articulos', Articulos::class);
@@ -66,7 +75,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
     Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
     
-
 
 
 // Rutas para listar, crear, almacenar, mostrar, editar, actualizar y eliminar ventas
@@ -84,6 +92,9 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
     Route::post('update-cart', [ArticulosController::class, 'updateCart'])->name('update_cart');
     Route::post('remove-from-cart', [ArticulosController::class, 'removeFromCart'])->name('remove_from_cart');
     Route::post('clear-cart', [ArticulosController::class, 'clearCart'])->name('clear_cart');
+
+    //Route::get('pagos/checkout', [StripeController::class, 'checkout'])->name('checkout');
+
 
     //factura del carrito
     Route::get('/invoice', [InvoiceController::class, 'print'])->name('invoice.print');

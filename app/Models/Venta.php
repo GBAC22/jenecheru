@@ -10,13 +10,14 @@ class Venta extends Model
         'user_id',
         'fecha',
         'total',
+        'metodo_de_pago'
     ];
 
     public function articulos()
     {
         return $this->belongsToMany(Articulo::class)
-                    ->withPivot('cantidad', 'precio_unitario')
-                    ->withTimestamps();
+            ->withPivot('cantidad', 'precio_unitario')
+            ->withTimestamps();
     }
 
     public function user()
