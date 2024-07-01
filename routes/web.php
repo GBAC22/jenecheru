@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SalidaController;
 use App\Http\Livewire\Articulos;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarcaController;
@@ -15,7 +16,11 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NotaDevolucionController;
 use App\Http\Controllers\NotaVentaController;
 use App\Http\Controllers\ProveedorController;
+
 use App\Http\Controllers\ReporteController;
+
+use App\Http\Controllers\PedidoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +59,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/marca', MarcaController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
+
     Route::resource('nota_devolucion',NotaDevolucionController::class);
     Route::get('/ruta_de_nota_devolucion', [NotaDevolucionController::class, 'index'])->name('nota_devolucion.index');
     Route::delete('/nota_devolucion/{id}', [NotaDevolucionController::class, 'destroy'])->name('nota_devolucion.destroy');
+
+
+    Route::resource('salidas', SalidaController::class);
+    Route::get('salidas/pdf/{salida}', [SalidaController::class, 'pdf'])->name('salidas.pdf');    
+    Route::get('salidas/change_status/{salida}', [SalidaController::class, 'change_status'])->name('salidas.change_status');
+    Route::get('salidas/descrip/{salida}', [SalidaController::class, 'descrip'])->name('salidas.descrip');
+
+
+
+
 
     // Para Livewire componentes normalmente no se definen de esta manera
     Route::resource('articulos', Articulos::class);
@@ -71,7 +87,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Reportes
     Route::get('/reporte', [ReporteController::class, 'export'])->name('export');
-
 
 
 // Rutas para listar, crear, almacenar, mostrar, editar, actualizar y eliminar ventas
@@ -104,5 +119,10 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
 
     //proveedores
     Route::resource('proveedores', ProveedorController::class);
+    
+    //pedidos
+    Route::get('/pedidos/actualizar-stock-minimo', [PedidoController::class, 'actualizarStockMinimoForm'])->name('pedidos.actualizarStockMinimoForm');
+    Route::post('/pedidos/actualizar-stock-minimo', [PedidoController::class, 'setStockMinimo'])->name('pedidos.setStockMinimo');
+    Route::resource('pedidos', PedidoController::class);
     
 });
