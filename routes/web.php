@@ -15,6 +15,7 @@ use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NotaVentaController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\PedidoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,5 +107,10 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
 
     //proveedores
     Route::resource('proveedores', ProveedorController::class);
+    
+    //pedidos
+    Route::get('/pedidos/actualizar-stock-minimo', [PedidoController::class, 'actualizarStockMinimoForm'])->name('pedidos.actualizarStockMinimoForm');
+    Route::post('/pedidos/actualizar-stock-minimo', [PedidoController::class, 'setStockMinimo'])->name('pedidos.setStockMinimo');
+    Route::resource('pedidos', PedidoController::class);
     
 });
