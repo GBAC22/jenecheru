@@ -108,7 +108,7 @@ class SalidaController extends Controller
         }
 
         return redirect()->back()->with('success', 'Salida activa y stock actualizado.');
-    /
+    
     }else if ($salida->status == 'VALIDO') {
       
         $salida->update(['status' => 'CANCELADO']);
