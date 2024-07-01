@@ -19,7 +19,7 @@ class CreateSalidasTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
             $table->dateTime('fecha');
             $table->decimal('total');
-            $table->enum('status',['VALIDO','CANCELADO'])->defaul('VALIDO');
+            $table->enum('status',['PENDIENTE','VALIDO','CANCELADO'])->defaul('PENDIENTE');
             $table->enum('descripcion',['ARTICULO OBSOLETO','ARTICULO DAÑADO'])->defaul('ARTICULO OBSOLETO'); 
             $table->timestamps();
         });

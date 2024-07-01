@@ -94,18 +94,43 @@ class SalidaController extends Controller
         $pdf= PDF::loadView('salidas.pdf', compact('salida','detalleSalidas','subtotal'));
         return  $pdf->download('Reporte de Nota de Salida'.$salida->id. '.pdf');
     }
+
+
     public function change_status(Salida $salida)
-    {
-        if($salida->status=='VALIDO')
-        {
-            $salida->update(['status'=>'CANCELADO']);
-            return redirect()->back();
-        }else{
-            $salida->update(['status'=>'VALIDO']);
-            return redirect()->back();
+{
+    if ($salida->status == 'PENDIENTE') {   
+        $salida->update(['status' => 'VALIDO']);
+
+        foreach ($salida->detalleSalidas as $detalle) {
+            $articulo = Articulo::find($detalle->articulo_id);
+            $articulo->stock -= $detalle->cantidad;
+            $articulo->save();
         }
+
+        return redirect()->back()->with('success', 'Salida activa y stock actualizado.');
+    /
+    }else if ($salida->status == 'VALIDO') {
+      
+        $salida->update(['status' => 'CANCELADO']);
+
+       
+        foreach ($salida->detalleSalidas as $detalle) {
+            $articulo = Articulo::find($detalle->articulo_id);
+            $articulo->stock += $detalle->cantidad;
+            $articulo->save();
+        }
+
+        return redirect()->back()->with('success', 'Salida cancelado y stock actualizado.');
+    } else {
+      
+        $salida->update(['status' => 'PENDIENTE']);
+
+  
+
+        return redirect()->back()->with('success', 'Salida PENDIENTE y stock actualizado.');
     }
-   
+}
+    
     public function descrip(Salida $salida)
     {
         if($salida->descripcion=='ARTICULO OBSOLETO')

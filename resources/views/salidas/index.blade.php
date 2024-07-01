@@ -69,14 +69,20 @@
                                             {{ $salida->total }}
                                         </td>                             
 
-                                       
-                                        @if ($salida->status=='VALIDO')
+                                        @if ($salida->status=='PENDIENTE')
+                                        <td>
+                                            <a class="text-blue-600 bg-blue-200 border border-blue-200" href="{{ route('salidas.change_status', $salida) }}" title="Editar">
+                                                PENDIENTE <i class="fas fa-check"></i>
+                                            </a>
+                                        </td>  
+                                        
+                                        @elseif ($salida->status=='VALIDO')
                                         <td>
                                             <a class="text-green-600 bg-green-200 border border-green-200" href="{{ route('salidas.change_status', $salida) }}" title="Editar">
                                                 ACTIVO <i class="fas fa-check"></i>
                                             </a>
                                         </td>  
-                                    @else  
+                                    @else
                                         <td>
                                             <a class="text-red-600 bg-red-200 border border-red-200" href="{{ route('salidas.change_status', $salida) }}" title="Editar">
                                                 CANCELADO <i class="fas fa-times"></i>
