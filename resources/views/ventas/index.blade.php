@@ -95,7 +95,7 @@
             } else if (periodo === 'mes') {
                 url = `{{ route('ventas.print', ['periodo' => 'mes', 'fecha' => '']) }}/${anio}-${mes}`;
             } else if (periodo === 'anio') {
-                url = `{{ route('ventas.print', ['periodo' => 'anio', 'fecha' => '']) }}/${anio}`;
+                url = `{{ route('ventas.print', ['periodo' => 'año', 'fecha' => '']) }}/${anio}`;
             }
 
             // Abrir la ventana para imprimir
