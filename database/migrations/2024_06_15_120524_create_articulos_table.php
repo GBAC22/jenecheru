@@ -15,13 +15,13 @@ class CreateArticulosTable extends Migration
     {
         Schema::create('articulos', function (Blueprint $table) {
             $table->id();
-            $table->integer('codigo');
+            $table->integer('codigo')->unsigned(); // Evita valores negativos
             $table->string('nombre', 60);
             $table->text('imagen');
-            $table->integer('precio_unitario');
-            $table->integer('precio_mayor');
-            $table->decimal('precio_promedio', 10, 2);
-            $table->integer('stock');
+            $table->integer('precio_unitario')->unsigned(); // Evita valores negativos
+            $table->integer('precio_mayor')->unsigned(); // Evita valores negativos
+            $table->decimal('precio_promedio', 10, 2)->unsigned();
+            $table->integer('stock')->unsigned(); // Evita valores negativos
             $table->string('descripcion', 60)->nullable();
             
             $table->unsignedBigInteger('categoria_id');
@@ -34,6 +34,15 @@ class CreateArticulosTable extends Migration
             $table->foreign('marca_id')->references('id')->on('marcas')->onDelete('cascade');
             $table->foreign('modelo_id')->references('id')->on('modelos')->onDelete('cascade');
         });
+
+        /*/ Alternativamente, puedes agregar restricciones de chequeo (check constraints):
+        Schema::table('articulos', function (Blueprint $table) {
+            $table->check('codigo >= 0');
+            $table->check('precio_unitario >= 0');
+            $table->check('precio_mayor >= 0');
+            $table->check('precio_promedio >= 0');
+            $table->check('stock >= 0');
+        });*/
     }
 
 

@@ -9,6 +9,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+                    @if ($errors->any())
+                        <div class="mb-4">
+                            <div class="font-medium text-red-600">{{ __('Whoops! Something went wrong.') }}</div>
+
+                            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form method="post" action="{{ route('ventas.update', $venta->id) }}">
                         @csrf
                         @method('PUT')
@@ -26,32 +38,56 @@
                         </div>
 
                         <div class="mb-6">
-                            <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha</label>
-                            <p class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">{{ $venta->fecha }}</p>
+                            <input type="text" id="searchArticulo" placeholder="Buscar artículo" class="border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 block w-full shadow-sm sm:text-sm rounded-md mb-2">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seleccionar</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del Artículo</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unitario</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="articulosTable" class="bg-white divide-y divide-gray-200">
+                                    @foreach ($articulos as $articulo)
+                                        <tr class="article-row">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <input type="checkbox" id="articulo{{ $articulo->id }}" name="articulos_seleccionados[]" value="{{ $articulo->id }}"
+                                                    @foreach ($venta->articulos as $ventaArticulo)
+                                                        @if ($ventaArticulo->id == $articulo->id) checked @endif
+                                                    @endforeach
+                                                    class="ml-2 article-checkbox border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $articulo->nombre }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <input type="number" name="articulos[{{ $articulo->id }}][cantidad]" value="{{ $venta->articulos->firstWhere('id', $articulo->id)->pivot->cantidad ?? 1 }}" min="1" class="article-cantidad border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 block w-full shadow-sm sm:text-sm rounded-md">
+                                                @error('articulos.' . $articulo->id . '.cantidad')
+                                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                                @enderror
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <input type="number" name="articulos[{{ $articulo->id }}][precio_unitario]" value="{{ $venta->articulos->firstWhere('id', $articulo->id)->pivot->precio_unitario ?? $articulo->precio_promedio }}" min="0" step="0.01" class="article-precio border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 block w-full shadow-sm sm:text-sm rounded-md">
+                                                @error('articulos.' . $articulo->id . '.precio_unitario')
+                                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                                @enderror
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="mb-6">
-                            <label for="total" class="block text-sm font-medium text-gray-700">Total</label>
-                            <input type="number" step="0.01" name="total" id="total" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" value="{{ $venta->total }}" />
-                            @error('total')
+                            <label for="metodo_de_pago" class="block text-sm font-medium text-gray-700">Método de Pago</label>
+                            <select name="metodo_de_pago" id="metodo_de_pago" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                <option value="efectivo" @if ($venta->metodo_de_pago == 'efectivo') selected @endif>Efectivo</option>
+                                <option value="tarjeta" @if ($venta->metodo_de_pago == 'tarjeta') selected @endif>Tarjeta</option>
+                                <option value="qr" @if ($venta->metodo_de_pago == 'qr') selected @endif>QR</option>
+                                <option value="otro" @if ($venta->metodo_de_pago == 'otro') selected @endif>Otro</option>
+                            </select>
+                            @error('metodo_de_pago')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
-                        </div>
-
-                        <div class="mb-6">
-                            <label for="articulos" class="block text-sm font-medium text-gray-700">Artículos</label>
-                            <div class="grid grid-cols-3 gap-4 mt-2">
-                                @foreach ($articulos as $articulo)
-                                    <div class="flex items-center">
-                                        <input type="checkbox" name="articulos[{{ $articulo->id }}][id]" id="articulo_{{ $articulo->id }}" value="{{ $articulo->id }}"
-                                            @foreach ($venta->articulos as $ventaArticulo)
-                                                @if ($ventaArticulo->id == $articulo->id) checked @endif
-                                            @endforeach
-                                            class="form-checkbox h-5 w-5 text-indigo-600">
-                                        <label for="articulo_{{ $articulo->id }}" class="ml-2 text-sm text-gray-700">{{ $articulo->nombre }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
                         </div>
 
                         <div class="flex justify-end">

@@ -53,8 +53,14 @@
 
     <div class="bg-gray-100 min-h-screen py-6">
         @if (session('success'))
-            <div id="success-message" class="fixed top-5 right-5 bg-green-500 text-white text-center py-2 px-4 rounded shadow-lg z-50">
+            <div id="success-message" class="fixed bottom-5 right-5 bg-green-500 text-white text-center py-2 px-4 rounded shadow-lg z-50">
                 {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div id="error-message" class="fixed bottom-5 right-5 bg-red-500 text-white text-center py-2 px-4 rounded shadow-lg z-50">
+                {{ session('error') }}
             </div>
         @endif
 
@@ -103,11 +109,14 @@
                     setTimeout(() => successMessage.remove(), 1000);
                 }, 3000);
             }
+
+            const errorMessage = document.getElementById('error-message');
+            if (errorMessage) {
+                setTimeout(() => {
+                    errorMessage.classList.add('opacity-0');
+                    setTimeout(() => errorMessage.remove(), 1000);
+                }, 3000);
+            }
         });
     </script>
 </x-app-layout>
-
-
-
-
-

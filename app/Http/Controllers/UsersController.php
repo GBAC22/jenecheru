@@ -46,7 +46,14 @@ class UsersController extends Controller
     public function show(User $user)
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Visualización de perfil',
+                'details' => 'El perfil del usuario ' . $user->name . ' ha sido visualizado',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         return view('users.show', compact('user'));
     }
 
@@ -55,7 +62,14 @@ class UsersController extends Controller
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $bitacoras = $user->bitacoras; // Asume que 'bitacoras' es la relación definida en el modelo User
-
+        if (auth()->check()) {
+            Bitacora::create([
+                'action' => 'Visualización de Bitacora',
+                'details' => 'La bitacora de ' . $user->name . ' ha sido visto',
+                'user_id' => auth()->user()->id,
+                'ip_address' => request()->ip(),
+            ]);
+        }
         return view('users.bitacora', compact('user', 'bitacoras'));
     }
 

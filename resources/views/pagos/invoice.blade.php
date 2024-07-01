@@ -1,7 +1,5 @@
-<!-- resources/views/invoice.blade.php -->
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,7 +94,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="header">
         <h1>Jenecheru</h1>
@@ -105,15 +102,18 @@
         <div class="invoice-header">
             <div class="company-details">
                 <p><strong>Jenecheru</strong></p>
-                <p>Dirección de la Empresa</p>
+                <p>Dirección de la Empresa: Radial 17 - calle Jenecheru</p>
                 <p>Teléfono: +123 456 789</p>
                 <p>Email: info@jenecheru.com</p>
             </div>
             <div class="invoice-title">
-                <h1>Factura</h1>
+                <h1>FACTURA</h1>
             </div>
             <div class="invoice-meta">
                 <p><strong>Fecha:</strong> {{ date('d/m/Y') }}</p>
+                @if ($cliente)
+                    <p><strong>Cliente:</strong> {{ $cliente->name }}</p>
+                @endif
             </div>
         </div>
 
@@ -156,8 +156,4 @@
         }
     </script>
 </body>
-
 </html>
-
-
-
