@@ -13,9 +13,14 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\NotaDevolucionController;
 use App\Http\Controllers\NotaVentaController;
 use App\Http\Controllers\ProveedorController;
+
+use App\Http\Controllers\ReporteController;
+
 use App\Http\Controllers\PedidoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +60,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('categorias', CategoriaController::class);
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
 
+    Route::resource('nota_devolucion',NotaDevolucionController::class);
+    Route::get('/ruta_de_nota_devolucion', [NotaDevolucionController::class, 'index'])->name('nota_devolucion.index');
+    Route::delete('/nota_devolucion/{id}', [NotaDevolucionController::class, 'destroy'])->name('nota_devolucion.destroy');
+
+
     Route::resource('salidas', SalidaController::class);
     Route::get('salidas/pdf/{salida}', [SalidaController::class, 'pdf'])->name('salidas.pdf');    
     Route::get('salidas/change_status/{salida}', [SalidaController::class, 'change_status'])->name('salidas.change_status');
@@ -74,7 +84,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/checkout', [StripeController::class, 'checkout'])->name('checkout');
     Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
     Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
-    
+
+    //Reportes
+    Route::get('/reporte', [ReporteController::class, 'export'])->name('export');
 
 
 // Rutas para listar, crear, almacenar, mostrar, editar, actualizar y eliminar ventas
