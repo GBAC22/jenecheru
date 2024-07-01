@@ -54,14 +54,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/users/clientes', [UsersController::class, 'clientes'])->name('users.clientes');
 
     Route::resource('salidas', SalidaController::class);
-    Route::get('salidas/pdf/{salida}', [SalidaController::class, 'pdf'])->name('salidas.pdf');
-    
+    Route::get('salidas/pdf/{salida}', [SalidaController::class, 'pdf'])->name('salidas.pdf');    
     Route::get('salidas/change_status/{salida}', [SalidaController::class, 'change_status'])->name('salidas.change_status');
     Route::get('salidas/descrip/{salida}', [SalidaController::class, 'descrip'])->name('salidas.descrip');
 
 
-    //Route::get('/generar-pdf/{userId}', [BitacoraController::class, 'generatePDF'])->name('generate.pdf');
-    //  Route::get('/generar-pdf/{userId}', [BitacoraController::class, 'generatePDF'])->name('generate.pdf');
 
 
 

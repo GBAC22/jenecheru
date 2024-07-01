@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-// use App\Http\Requests\UpdateSalidaRequest;
+
 use App\Models\Articulo;
 
 
@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
 use PDF;
 use Illuminate\Support\Facades\Auth;
-//use Barryvdh\DomPDF\Facade as PDF;
 
 
 class SalidaController extends Controller
@@ -35,7 +34,7 @@ class SalidaController extends Controller
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $articulos = Articulo::all();
-        // $users = User::all();
+       
         return view('salidas.create',compact('articulos'));
     }
 
@@ -43,19 +42,10 @@ class SalidaController extends Controller
     public function store(Request $request)
     {
    
-        // $request->validate([
-        //     'articulo_id' => 'required|array',
-        //     'articulo_id.*' => 'exists:articulos,id',
-        //     'cantidad' => 'required|array',
-        //     'cantidad.*' => 'integer|min:1',
-        //     'detalle' => 'required|array',
-        //     'detalle.*' => 'string|max:255',
-        //     'precio' => 'required|array',
-        //     'precio.*' => 'numeric|min:0',
-        // ]);
+     
 
         $salida= Salida::create($request->all()+[
-            // 'user_id'=> $request->user_id,
+        
             'user_id'=> Auth::user()->id,
             'fecha'=>Carbon::now(),
         ]);
@@ -103,7 +93,6 @@ class SalidaController extends Controller
         }
         $pdf= PDF::loadView('salidas.pdf', compact('salida','detalleSalidas','subtotal'));
         return  $pdf->download('Reporte de Nota de Salida'.$salida->id. '.pdf');
-        // return view('salidas.show', compact('salida','detalleSalidas','subtotal'));
     }
     public function change_status(Salida $salida)
     {
