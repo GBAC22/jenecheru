@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('nota_devolucion',NotaDevolucionController::class);
     Route::get('/ruta_de_nota_devolucion', [NotaDevolucionController::class, 'index'])->name('nota_devolucion.index');
     Route::delete('/nota_devolucion/{id}', [NotaDevolucionController::class, 'destroy'])->name('nota_devolucion.destroy');
-
+    
 
     Route::resource('salidas', SalidaController::class);
     Route::get('salidas/pdf/{salida}', [SalidaController::class, 'pdf'])->name('salidas.pdf');    
@@ -97,6 +97,7 @@ Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('ventas.sh
 Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
 Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
 Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
+Route::get('/ventas/print/{periodo}/{fecha?}', [VentaController::class, 'print'])->name('ventas.print');
 
     //carrito de compras  
     Route::post('add-to-cart', [ArticulosController::class, 'addToCart'])->name('add_to_cart');
