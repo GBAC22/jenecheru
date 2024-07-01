@@ -10,24 +10,6 @@ class Pedido extends Model
     use HasFactory;
     protected $fillable = ['user_id', 'proveedor_id', 'fecha', 'estado', 'total','sw'];
 
-     // Definir la variable estática para el stock mínimo
-     protected static $stockMinimo = 10; // Valor por defecto
-
-     /**
-      * Obtener el valor del stock mínimo
-      */
-     public static function getStockMinimo()
-     {
-         return self::$stockMinimo;
-     }
- 
-     /**
-      * Establecer el valor del stock mínimo
-      */
-    public static function setStockMinimo($value)
-    {
-        self::$stockMinimo = $value;
-    }
     
     public function user()
     {

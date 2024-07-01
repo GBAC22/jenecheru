@@ -98,6 +98,8 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
     Route::resource('proveedores', ProveedorController::class);
     
     //pedidos
+    Route::get('/pedidos/actualizar-stock-minimo', [PedidoController::class, 'actualizarStockMinimoForm'])->name('pedidos.actualizarStockMinimoForm');
+    Route::post('/pedidos/actualizar-stock-minimo', [PedidoController::class, 'setStockMinimo'])->name('pedidos.setStockMinimo');
     Route::resource('pedidos', PedidoController::class);
     
 });

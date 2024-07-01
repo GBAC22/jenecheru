@@ -68,10 +68,10 @@
                                 <table class="min-w-full bg-white border border-gray-300">
                                     <thead>
                                         <tr>
-                                            <th class="px-4 py-2 border-b">Artículo</th>
-                                            <th class="px-4 py-2 border-b">Cantidad</th>
-                                            <th class="px-4 py-2 border-b">Precio Unitario</th>
-                                            <th class="px-4 py-2 border-b">Importe</th>
+                                            <th class="px-4 py-2 border-b text-xs font-medium text-gray-500 uppercase tracking-wider">Artículo</th>
+                                            <th class="px-4 py-2 border-b text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                                            <th class="px-4 py-2 border-b text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unitario</th>
+                                            <th class="px-4 py-2 border-b text-xs font-medium text-gray-500 uppercase tracking-wider">Importe</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -97,8 +97,8 @@
                             </div>
                         </div>
 
-                        <div class="flex justify-end">
-                            <a href="{{ route('pedidos.index') }}" class="mr-4 inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-600 active:bg-gray-700 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                        <div class="flex justify-end mt-6 space-x-4">
+                            <a href="{{ route('pedidos.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-600 active:bg-gray-700 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                 Cancelar
                             </a>
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-600 active:bg-indigo-700 focus:outline-none focus:border-indigo-900 focus:shadow-outline-indigo disabled:opacity-25 transition ease-in-out duration-150">

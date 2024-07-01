@@ -8,7 +8,7 @@ use App\Models\Articulo;
 use App\Models\Proveedor;
 use App\Models\User;
 use App\Models\Bitacora;
-
+use App\Models\Setting;
 class PedidoController extends Controller
 {
     
@@ -23,7 +23,7 @@ class PedidoController extends Controller
     public function create()
     {
         $proveedores = Proveedor::all();
-        $articulosConStockBajo = Articulo::where('stock', '<=', Pedido::getStockMinimo())->get();
+        $articulosConStockBajo = Articulo::where('stock', '<=', Setting::getValue('stock_minimo', 10))->get();
         return view('pedidos.create', compact('proveedores', 'articulosConStockBajo'));
     }
 
@@ -89,19 +89,23 @@ class PedidoController extends Controller
         return redirect()->route('pedidos.index')->with('success', 'Pedido creado correctamente');
     }
 
+    public function actualizarStockMinimoForm()
+    {
+        $stockActual = Setting::getValue('stock_minimo', 10); // Valor por defecto de 10
+        return view('pedidos.actualizar_stock_minimo', compact('stockActual'));
+    }
+
     public function setStockMinimo(Request $request)
     {
         $request->validate([
-            'stock_minimo' => 'required|numeric|min:0',
-        ], [
-            'stock_minimo.required' => 'El campo stock mínimo es obligatorio.',
-            'stock_minimo.numeric' => 'El campo stock mínimo debe ser un valor numérico.',
-            'stock_minimo.min' => 'El stock mínimo debe ser mayor o igual a cero.',
+            'nuevo_stock_minimo' => 'required|integer|min:0',
         ]);
-        $nuevoStockMinimo = $request->input('stock_minimo');
-        Pedido::setStockMinimo($nuevoStockMinimo);
 
-        return redirect()->back()->with('success', 'Stock mínimo actualizado correctamente.');
+        $nuevoStockMinimo = $request->input('nuevo_stock_minimo');
+
+        Setting::setValue('stock_minimo', $nuevoStockMinimo);
+
+        return redirect()->route('pedidos.index')->with('success', 'Stock Mínimo actualizado correctamente.');
     }
     public function show($id)
     {
@@ -118,18 +122,22 @@ class PedidoController extends Controller
 
         return view('pedidos.show', compact('pedido'));
     }
+    
+
     public function edit($id)
     {
         $pedido = Pedido::findOrFail($id);
-        if($pedido->sw){
-            return redirect()->route('pedidos.index')->with('message', 'El pedido ya ha sido recibido y no puede ser modificado');
+        
+        if ($pedido->sw) {
+            return redirect()->route('pedidos.index')->with('success', 'El pedido ya ha sido recibido por eso ya no se puede modificar');
         }
+        
         $articulos = $pedido->articulos()->get();
         $user = $pedido->user;
         $proveedores = Proveedor::all();
+        
         return view('pedidos.edit', compact('pedido', 'user', 'proveedores', 'articulos'));
     }
-
 
     public function update(Request $request, Pedido $pedido)
     {

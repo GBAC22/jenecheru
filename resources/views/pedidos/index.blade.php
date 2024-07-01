@@ -5,11 +5,11 @@
         </h2>
     </x-slot>
 
-            
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="block mb-8">
-                <a href="{{ route('pedidos.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Crear un Pedido</a>
+            <div class="flex flex-wrap justify-between mb-8">
+                <a href="{{ route('pedidos.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 sm:mb-0">Crear un Pedido</a>
+                <a href="{{ route('pedidos.actualizarStockMinimoForm') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Actualizar Stock Mínimo</a>
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
@@ -23,7 +23,7 @@
                         Listado de Pedidos
                     </div>
 
-                    <div class="mt-6 text-gray-500">
+                    <div class="mt-6 text-gray-500 overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr>
