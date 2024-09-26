@@ -96,6 +96,6 @@
       </div>
     @endif
   </div>
-  <h1>JENECHERU</h1>
+  <h1>RACE STORE</h1>
 </body>
 </html>
